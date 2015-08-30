@@ -128,63 +128,63 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
     evaluate(src: mas, tt: transform, l: lib, b: builtinsdict):
       _evaluate(src, tt, l, src, tt, b)
       
-    _transform(s: mas, t: transform, l: dicttransform,  
+    _evaluate(s: mas, t: transform, l: dicttransform,  
                  src: mas, tt: transform, b: builtinsdict):
       t is eval: 
-        return _transformEval(s, t, l, src, tt, b)
+        return _evaluateEval(s, t, l, src, tt, b)
       t is builtineval: 
-        return _transformBuiltin(s, t, l, src, tt, b)
+        return _evaluateBuiltin(s, t, l, src, tt, b)
       t is quoteeval:
-        return _transformQuote(t)
+        return _evaluateQuote(t)
       t is dicttransform:
-        return _transformDict(s, t, l, src, tt, b)
+        return _evaluateDict(s, t, l, src, tt, b)
       t is listtransform:
         t[0] == "&&":
-          return _flatten(_transformList(s, t, l, src, tt, b))
+          return _flatten(_evaluateList(s, t, l, src, tt, b))
         else
-          return _transformList(s, t, l, src, tt, b)
+          return _evaluateList(s, t, l, src, tt, b)
             where t2 = t[1:] if t[0] == "&&" else t
       t is pathheadtransform:
-        return _transformHeadPath(s, t[1:], l, src, tt, b)
+        return _evaluateHeadPath(s, t[1:], l, src, tt, b)
       t is pathtransform:
-        return _transformPath(s, t[2:], l, src, tt, b)
+        return _evaluatePath(s, t[2:], l, src, tt, b)
       t is simpletransform:
         return t
         
-    _transformEval(s: mas, t: transform, l: dicttransform,  
+    _evaluateEval(s: mas, t: transform, l: dicttransform,  
                  src: mas, tt: transform, b: builtinsdict):
       return _evaluate(s2, t2, l2, src, tt, b)
-        where t2 = _transform(s, t["!"], l, src, tt, b)
-          and s2 = { key: _transform(s, t["@"][key], l, src, tt, b)
+        where t2 = _evaluate(s, t["!"], l, src, tt, b)
+          and s2 = { key: _evaluate(s, t["@"][key], l, src, tt, b)
                        for k:key in t["@"] }, if t["@"], else s
-          and l2 = { key: _transform(s, t["*"][key], l, src, tt, b)
+          and l2 = { key: _evaluate(s, t["*"][key], l, src, tt, b)
                        for k:key in t["*"] }, if t["*"], else l
                        
-    _transformBuiltin(s: mas, t: transform, l: dicttransform,  
+    _evaluateBuiltin(s: mas, t: transform, l: dicttransform,  
                  src: mas, tt: transform, b: builtinsdict):
       return builtinf(s, s2, l2, src, tt, b)
         where builtinf = b[t["&"]]
-          and s2 = { key: _transform(s, t["@"][key], l, src, tt, b)
+          and s2 = { key: _evaluate(s, t["@"][key], l, src, tt, b)
                        for k:key in t["@"] }, if t["@"], else s
-          and l2 = { key: _transform(s, t["*"][key], l, src, tt, b)
+          and l2 = { key: _evaluate(s, t["*"][key], l, src, tt, b)
                        for k:key in t["*"] }, if t["*"], else l
                        
-    _transformQuote(t: transform):
+    _evaluateQuote(t: transform):
       return t["'"]
       
-    _transformDict(s: mas, t: transform, l: dicttransform,  
+    _evaluateDict(s: mas, t: transform, l: dicttransform,  
                  src: mas, tt: transform, b: builtinsdict):
-      return { key: _transform(s, t[key], l, src, tt, b) 
+      return { key: _evaluate(s, t[key], l, src, tt, b) 
                       for key in t }
                       
-    _transformArray(s: mas, t: transform, l: dicttransform,  
+    _evaluateArray(s: mas, t: transform, l: dicttransform,  
                  src: mas, tt: transform, b: builtinsdict):
-      return [ _transform(s, t[ix], l, src, tt, b) 
+      return [ _evaluate(s, t[ix], l, src, tt, b) 
                       for ix in t ]
                       
-    _transformHeadPath(s: mas, t: transform, l: dicttransform,  
+    _evaluateHeadPath(s: mas, t: transform, l: dicttransform,  
                  src: mas, tt: transform, b: builtinsdict):
-      return _transform(s, headpath_t, l, src, tt, b)
+      return _evaluate(s, headpath_t, l, src, tt, b)
         where headpath_t = {
           "!": {"'": "#@.list[0]"},
           "list": {
@@ -193,9 +193,9 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
           }
         }
         
-    _transformPath(s: mas, t: transform, l: dicttransform,  
+    _evaluatePath(s: mas, t: transform, l: dicttransform,  
                  src: mas, tt: transform, b: builtinsdict):
-      return _transform(s, path_t, l, src, tt, b)
+      return _evaluate(s, path_t, l, src, tt, b)
         where path_t = {
           "&": "path",
           "path": t
