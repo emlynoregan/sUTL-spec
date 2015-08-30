@@ -38,11 +38,10 @@ Instead of using versioning to address this concern, sUTL uses tests to allow a 
 Also note that if you want to separate the concerns of acceptance testing an required transform from testing your own transform, you can write the acceptance tests as part of a separate, "testing" transform, and require it in your own transform. Separated like this, you can also consume someone else's test transforms rather than writing your own.
 
 ### Naming
-To be publishable, ie: to be able to be required by another transform, the declaration must include a name. This is actually a list of strings. The list can be as long as desired, constructing a name from the most specific to the most general. eg:
-  ["map", "basics", "emlynoregan.com"]
+To be publishable, ie: to be able to be required by another transform, the declaration must include a name. This is a structured string, which should include naming from most specific to most general, separated by underscores. eg: "map_basics_emlynoregan_com"
 In a "requires" list, a requirement matches the first declaration it finds where the require name is equal to or is a prefix of the declaration's name.
 
-eg: A requirement of ["map", "basics"] would match a declaration name of ["map", "basics", "emlynoregan.com"], but it would also match ["map", "basics", "mock"]. This construct should allow dependency injection semantics to be achieved.
+eg: A requirement of "map_basics" would match a declaration name of "map_basics_emlynoregan_com", but it would also match "map_basics_mock". This construct should allow dependency injection semantics to be achieved.
 
 A recommmended convention is that all of your declaration names should have a final element which is a domain name you own, eg: "emlynoregan.com". This acts as a namespace separating your transforms from those of others. This is only a convention, however, and may be broken for lots of reasons, not least of which is to substitute alternative versions of libraries to prebuilt transforms.
 
@@ -101,17 +100,20 @@ In this grammar, the fundamental structures are Dictionaries (represented as key
     
     declaration:  
       {
-        "name": publishname,
+        "name": string,
         "language": sUTL0,
         "transform-t": transform,           // required
         "test-t": transform,
-        "requires": [ publishname, ... ]
+        "requires": [ string, ... ]
       }
-      
-    publishname: [ string, ...]
-      
+
+    declarations: [ declaration, ... ]
+
     distribution: [ declaration, ... ]
       where all declarations have at least name, language, and X.
+    
+    distributions: [ distribution, ... ] 
+    
     
 ## Basic functions of bOTL
 
@@ -125,10 +127,10 @@ The library and builtins dictionaries here could just as easily be a host langua
 
 Note that evaluate doesn't work on declarations, and has no knowledge of them. 
 
-    evaluate(src: mas, tt: transform, l: lib, b: builtinsdict):
+    evaluate(src: mas, tt: transform, l: fulldicttransform, b: builtins):
       _evaluate(src, tt, l, src, tt, b)
       
-    _evaluate(s: mas, t: transform, l: dicttransform,  
+    _evaluate(s: mas, t: transform, l: fulldicttransform,  
                  src: mas, tt: transform, b: builtinsdict):
       t is eval: 
         return _evaluateEval(s, t, l, src, tt, b)
@@ -151,8 +153,8 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
       t is simpletransform:
         return t
         
-    _evaluateEval(s: mas, t: transform, l: dicttransform,  
-                 src: mas, tt: transform, b: builtinsdict):
+    _evaluateEval(s: mas, t: transform, l: fulldicttransform,  
+                 src: mas, tt: transform, b: builtins):
       return _evaluate(s2, t2, l2, src, tt, b)
         where t2 = _evaluate(s, t["!"], l, src, tt, b)
           and s2 = { key: _evaluate(s, t["@"][key], l, src, tt, b)
@@ -160,8 +162,8 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
           and l2 = { key: _evaluate(s, t["*"][key], l, src, tt, b)
                        for k:key in t["*"] }, if t["*"], else l
                        
-    _evaluateBuiltin(s: mas, t: transform, l: dicttransform,  
-                 src: mas, tt: transform, b: builtinsdict):
+    _evaluateBuiltin(s: mas, t: transform, l: fulldicttransform,  
+                 src: mas, tt: transform, b: builtins):
       return builtinf(s, s2, l2, src, tt, b)
         where builtinf = b[t["&"]]
           and s2 = { key: _evaluate(s, t["@"][key], l, src, tt, b)
@@ -172,18 +174,18 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
     _evaluateQuote(t: transform):
       return t["'"]
       
-    _evaluateDict(s: mas, t: transform, l: dicttransform,  
-                 src: mas, tt: transform, b: builtinsdict):
+    _evaluateDict(s: mas, t: transform, l: fulldicttransform,  
+                 src: mas, tt: transform, b: builtins):
       return { key: _evaluate(s, t[key], l, src, tt, b) 
                       for key in t }
                       
-    _evaluateArray(s: mas, t: transform, l: dicttransform,  
-                 src: mas, tt: transform, b: builtinsdict):
+    _evaluateArray(s: mas, t: transform, l: fulldicttransform,  
+                 src: mas, tt: transform, b: builtins):
       return [ _evaluate(s, t[ix], l, src, tt, b) 
                       for ix in t ]
                       
-    _evaluateHeadPath(s: mas, t: transform, l: dicttransform,  
-                 src: mas, tt: transform, b: builtinsdict):
+    _evaluateHeadPath(s: mas, t: transform, l: fulldicttransform,  
+                 src: mas, tt: transform, b: builtins):
       return _evaluate(s, headpath_t, l, src, tt, b)
         where headpath_t = {
           "!": {"'": "#@.list[0]"},
@@ -193,8 +195,8 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
           }
         }
         
-    _evaluatePath(s: mas, t: transform, l: dicttransform,  
-                 src: mas, tt: transform, b: builtinsdict):
+    _evaluatePath(s: mas, t: transform, l: fulldicttransform,  
+                 src: mas, tt: transform, b: builtins):
       return _evaluate(s, path_t, l, src, tt, b)
         where path_t = {
           "&": "path",
@@ -205,5 +207,70 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
       [item for item in l1 for l1 in l2]
         where l2 = [i2 for i in l where i2 = i if i is list else [i]]
         
+### compilelib
+
+The compilelib() function takes a list of declarations that you want a library for, a list of distributions that you're going to use to compile the library, and a seed lib to start from. Usually use a lib like {}.
+
+Note that the name of a transform in the lib is the require name, not the declared name. So if your transform requires "map_basics", and that matches "map_basics_emlynoregan_com", then it'll be called "map_basics" in the lib (and so can be refered to that way in the transform itself).
+
+It returns pair of (lib, fails), only one of which will be set. If lib is set then it is a usable lib. Otherwise fails will be a list of the evaluation of tests that failed. By convention each should be a list of strings, each saying what a given failure was.
+
+    compilelib(decls: declarations, dists: distributions, l: fulldicttransform, test: boolean, b: builtins):
+    
+      # names of all required decls not already in the library
+      needed_decl_names = [ name for name in decl.requires for decl in decls where not name in l ]  
+      
+      needed_decl_names = remove_duplicates(needed_decl_names)
+
+      # for each needed_decl_name, get a list of candidate declarations from the distributions, in order
+      candidate_decls = { 
+        d_name: [ decl for decl in dist for dist in dists 
+                if d_name is prefix of decl.name ]
+          for d_name in needed_decl_names
+      }
+      
+      result-lib = { key: lib[key] for key in lib } # shallow copy
+      fails = []
+      
+      for key in candidate_decls:
+        if candidate_decls[key]:
+          candidate_ix = 0
+          fails2total = []
+          for candidate_decl in candidate_decls[key]:
+            result-lib2, fails2 = compilelib(candidate_decl["requires"], dists, result-lib, test, b)
+            if fails2:
+              fails2total += fails2
+            else:
+              fails2total = [] # scrub any fails, we were successful here
+              result-lib += result-lib2
+              break
+              
+          if fails2total:
+            fails += fails2total
+      
+      # here result-lib includes everything we could find for requires from candidate_decls
+
+      if test:
+        for decl in decls:
+          # filter lib back to only what decl wants
+          decl-lib = { key: result-lib[key] for key in result-lib if key in decl["requires"] }
+          
+          # evaluate the test. If the result is truthy, the test fails
+          fail = evaluate(decl["transform_t"], decl["test-t"], decl-lib, b)
+          
+          if fail:
+            fails += fail
+            
+      # else these can't really fail
+      
+      if fails:
+        return null, fails
+      else:
+        return result-lib, null
+
+## Assembling the distributions
+This document is agnostic about this. A javascript library is being prepared for the browser which gets distributions by declaring script tags pointing at urls each of which add one or more distributions to a global _dists_ object. Then that object is used as the list of distributions throughout.
+
+It is intended that dists should be sourceable from anywhere that makes sense; web addresses as json text, stored in datastores, stored in local files, maybe even retrieved from torrents. Decisions in this regard shouldn't be made until the language beds down.
 
 
