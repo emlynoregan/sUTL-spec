@@ -1,5 +1,5 @@
 # sUTL-spec
-The specification for sUTL Universal Transform Language
+The specification for sUTL Universal Transform Language, v0.2
 
 sUTL is a Lisp dialect that is specified in and operates natively on MAS structures (Maps/Dicts, Arrays/Lists, Simple Types) in a host language. MAS structures are defined as exactly those which successfully serialise to JSON and deserialise from JSON, so JSON is a convenient way to think about MAS. However, it is important to remember that MAS is not JSON; it is the territory to JSON's map.
 
@@ -18,16 +18,33 @@ Transforms in sUTL don't have any kind of contract with callers, except what mig
 
 Declarations are a wrapper around a transform, and are analogous to a mix of a function signature and a package manifest.
 
-A declaration needs three attributes to be usable as a general signature:
-- "X": This is the actual transform. It requires a library as described by "requires".
+### Language Version
+A declaration must have a language version. Currently the version is specified as:
+
+- "language": "sUTL0"
+
+Current version code should reject any declaration that differs from this. Future version callers can decide how to handle this attribute.
+
+### Signature
+A declaration is a dictionary that needs three attributes to be usable as a general signature:
+- "transform-t": This is the actual transform. It requires a library as described by "requires".
 - "requires": This is a list of publishnames. A caller can use these to provide matching transforms in the library when evaluating the transform. 
-- "X-test": This is a special transform, which can be used to test the transform "X". When evaluated on "X" as its source, it is falsey if the test succeeds, or truthy if it fails. A convention is that a failed (truthy) result should be an errorreport (see the grammar below), describing what failures occured in the test. See the function loadlib() below for details on how these tests can be invoked.
+- "test-t": This is a special transform, which can be used to test the transform "transform-t". When evaluated on "transform-t" as its source, it is falsey if the test succeeds, or truthy if it fails. A convention is that a failed (truthy) result should be an errorreport (see the grammar below), describing what failures occured in the test. See the function loadlib() below for details on how these tests can be invoked.
 
 With further regard to tests, you will note that there is no specification of versioning in Declarations, or in "requires" sections. However, it is intended that many uses of sUTL will involve pulling declarations of functions from websites at run time or whenever desired. This means that a transform written to expect a particular library transform, say A, can receive a modified version, say A', at a later time. There are no guarantees that A is in any way similar to A'.
 
-Instead of using versioning to address this concern, sUTL uses tests to allow a transform author to apply acceptance tests to their required library transforms. That is, if you are worried that an imported transform A might change on you, you can write your X-test to include acceptance testing of A as well as testing on yourself.
+Instead of using versioning to address this concern, sUTL uses tests to allow a transform author to apply acceptance tests to their required library transforms. That is, if you are worried that an imported transform A might change on you, you can write your test-t to include acceptance testing of A as well as testing on yourself.
 
 Also note that if you want to separate the concerns of acceptance testing an required transform from testing your own transform, you can write the acceptance tests as part of a separate, "testing" transform, and require it in your own transform. Separated like this, you can also consume someone else's test transforms rather than writing your own.
+
+### Naming
+To be publishable, ie: to be able to be required by another transform, the declaration must include a name. This is actually a list of strings. The list can be as long as desired, constructing a name from the most specific to the most general. eg:
+  ["map", "basics", "emlynoregan.com"]
+In a "requires" list, a requirement matches the first declaration it finds where the require name is equal to or is a prefix of the declaration's name.
+
+eg: A requirement of ["map", "basics"] would match a declaration name of ["map", "basics", "emlynoregan.com"], but it would also match ["map", "basics", "mock"]. This construct should allow dependency injection semantics to be achieved.
+
+A recommmended convention is that all of your declaration names should have a final element which is a domain name you own, eg: "emlynoregan.com". This acts as a namespace separating your transforms from those of others. This is only a convention, however, and may be broken for lots of reasons, not least of which is to substitute alternative versions of libraries to prebuilt transforms.
 
 ## Distribution
 A distribution is an ordered list of declarations. The ordering allows a light versioning; a particular distribution could contain a number of transforms with the same name. Consumers are able to just grab the latest, or grab the first one of a given name that passes their tests (very powerful, because it lets you release new versions of a transform without breaking old dependent transforms which rely on deprecated behavior), or other approaches as desired. 
@@ -47,7 +64,7 @@ In this grammar, the fundamental structures are Dictionaries (represented as key
     }
     
     builtineval: { 
-        "&": transform, 
+        "&": string, 
         "@": dicttransform,
         "*": dicttransform
     }
@@ -70,8 +87,6 @@ In this grammar, the fundamental structures are Dictionaries (represented as key
       
     simpletransform: number | boolean | nonpathstring
 
-    builtins: { string: host-function, ... }
-    
     key: string not including "!", "'", "&"
     
     mas: dict, list, simple
@@ -84,14 +99,12 @@ In this grammar, the fundamental structures are Dictionaries (represented as key
     
     nonpathstring: x + string where x != "#" | "##"
     
-    host-function: <function from the host language>
-
     declaration:  
       {
         "name": publishname,
         "language": sUTL0,
-        "X": transform,           // required
-        "X-test": transform,
+        "transform-t": transform,           // required
+        "test-t": transform,
         "requires": [ publishname, ... ]
       }
       
@@ -102,5 +115,95 @@ In this grammar, the fundamental structures are Dictionaries (represented as key
     
 ## Basic functions of bOTL
 
-There are a handful of basic functions that comprise bOTL. They are detailed here in pseudo
+There are a handful of basic functions that comprise bOTL. They are detailed here in pseudo code.
+
+### evaluate
+
+This is the sUTL interpreter. It takes a source MAS structure, a transform, a library dictionary, and a buitins dictionary, and returns the source as transformed by the transform.
+
+The library and builtins dictionaries here could just as easily be a host language function from name to transform or name to function respectively.
+
+Note that evaluate doesn't work on declarations, and has no knowledge of them. 
+
+    evaluate(src: mas, tt: transform, l: lib, b: builtinsdict):
+      _evaluate(src, tt, l, src, tt, b)
+      
+    _transform(s: mas, t: transform, l: dicttransform,  
+                 src: mas, tt: transform, b: builtinsdict):
+      t is eval: 
+        return _transformEval(s, t, l, src, tt, b)
+      t is builtineval: 
+        return _transformBuiltin(s, t, l, src, tt, b)
+      t is quoteeval:
+        return _transformQuote(t)
+      t is dicttransform:
+        return _transformDict(s, t, l, src, tt, b)
+      t is listtransform:
+        t[0] == "&&":
+          return _flatten(_transformList(s, t, l, src, tt, b))
+        else
+          return _transformList(s, t, l, src, tt, b)
+            where t2 = t[1:] if t[0] == "&&" else t
+      t is pathheadtransform:
+        return _transformHeadPath(s, t[1:], l, src, tt, b)
+      t is pathtransform:
+        return _transformPath(s, t[2:], l, src, tt, b)
+      t is simpletransform:
+        return t
+        
+    _transformEval(s: mas, t: transform, l: dicttransform,  
+                 src: mas, tt: transform, b: builtinsdict):
+      return _evaluate(s2, t2, l2, src, tt, b)
+        where t2 = _transform(s, t["!"], l, src, tt, b)
+          and s2 = { key: _transform(s, t["@"][key], l, src, tt, b)
+                       for k:key in t["@"] }, if t["@"], else s
+          and l2 = { key: _transform(s, t["*"][key], l, src, tt, b)
+                       for k:key in t["*"] }, if t["*"], else l
+                       
+    _transformBuiltin(s: mas, t: transform, l: dicttransform,  
+                 src: mas, tt: transform, b: builtinsdict):
+      return builtinf(s, s2, l2, src, tt, b)
+        where builtinf = b[t["&"]]
+          and s2 = { key: _transform(s, t["@"][key], l, src, tt, b)
+                       for k:key in t["@"] }, if t["@"], else s
+          and l2 = { key: _transform(s, t["*"][key], l, src, tt, b)
+                       for k:key in t["*"] }, if t["*"], else l
+                       
+    _transformQuote(t: transform):
+      return t["'"]
+      
+    _transformDict(s: mas, t: transform, l: dicttransform,  
+                 src: mas, tt: transform, b: builtinsdict):
+      return { key: _transform(s, t[key], l, src, tt, b) 
+                      for key in t }
+                      
+    _transformArray(s: mas, t: transform, l: dicttransform,  
+                 src: mas, tt: transform, b: builtinsdict):
+      return [ _transform(s, t[ix], l, src, tt, b) 
+                      for ix in t ]
+                      
+    _transformHeadPath(s: mas, t: transform, l: dicttransform,  
+                 src: mas, tt: transform, b: builtinsdict):
+      return _transform(s, headpath_t, l, src, tt, b)
+        where headpath_t = {
+          "!": {"'": "#@.list[0]"},
+          "list": {
+            "&": path,
+            "path": t
+          }
+        }
+        
+    _transformPath(s: mas, t: transform, l: dicttransform,  
+                 src: mas, tt: transform, b: builtinsdict):
+      return _transform(s, path_t, l, src, tt, b)
+        where path_t = {
+          "&": "path",
+          "path": t
+        }
+        
+    _flatten(l: list):
+      [item for item in l1 for l1 in l2]
+        where l2 = [i2 for i in l where i2 = i if i is list else [i]]
+        
+
 
