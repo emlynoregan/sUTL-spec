@@ -101,7 +101,7 @@ In this grammar, the fundamental structures are Dictionaries (represented as key
     declaration:  
       {
         "name": string,
-        "language": sUTL0,
+        "language": "sUTL0",
         "transform-t": transform,           // required
         "test-t": transform,
         "requires": [ string, ... ]
