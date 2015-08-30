@@ -119,9 +119,9 @@ In this grammar, the fundamental structures are Dictionaries (represented as key
     distributions: [ distribution, ... ] 
     
     
-## Basic functions of bOTL
+## Basic functions of sUTL
 
-There are a handful of basic functions that comprise bOTL. They are detailed here in pseudo code.
+There are a handful of basic functions that comprise sUTL. They are detailed here in pseudo code.
 
 ### evaluate
 
