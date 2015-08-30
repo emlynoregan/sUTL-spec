@@ -58,14 +58,14 @@ In this grammar, the fundamental structures are Dictionaries (represented as key
       
     eval: { 
         "!": transform, 
-        "@": fulldicttransform,
-        "*": fulldicttransform
+        "*": fulldicttransform,
+        "key": transform, ...
     }
     
     builtineval: { 
         "&": string, 
-        "@": dicttransform,
         "*": dicttransform
+        "key": transform, ...
     }
     
     quoteeval: { "'": transform }
@@ -156,19 +156,19 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
                  src: mas, tt: transform, b: builtins):
       return _evaluate(s2, t2, l2, src, tt, b)
         where t2 = _evaluate(s, t["!"], l, src, tt, b)
-          and s2 = { key: _evaluate(s, t["@"][key], l, src, tt, b)
-                       for k:key in t["@"] }, if t["@"], else s
+          and s2 = { key: _evaluate(s, t[key], l, src, tt, b)
+                       for key in t }
           and l2 = { key: _evaluate(s, t["*"][key], l, src, tt, b)
-                       for k:key in t["*"] }, if t["*"], else l
+                       for key in t["*"] }, if t["*"], else l
                        
     _evaluateBuiltin(s: mas, t: transform, l: fulldicttransform,  
                  src: mas, tt: transform, b: builtins):
       return builtinf(s, s2, l2, src, tt, b)
         where builtinf = b[t["&"]]
-          and s2 = { key: _evaluate(s, t["@"][key], l, src, tt, b)
-                       for k:key in t["@"] }, if t["@"], else s
+          and s2 = { key: _evaluate(s, t[key], l, src, tt, b)
+                       for key in t }
           and l2 = { key: _evaluate(s, t["*"][key], l, src, tt, b)
-                       for k:key in t["*"] }, if t["*"], else l
+                       for key in t["*"] }, if t["*"], else l
                        
     _evaluateQuote(t: transform):
       return t["'"]
@@ -185,15 +185,8 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
                       
     _evaluateHeadPath(s: mas, t: transform, l: fulldicttransform,  
                  src: mas, tt: transform, b: builtins):
-      return _evaluate(s, headpath_t, l, src, tt, b)
-        where headpath_t = {
-          "!": {"'": "#@.list[0]"},
-          "list": {
-            "&": path,
-            "path": t
-          }
-        }
-        
+      return _evaluatePath(s, headpath_t, l, src, tt, b)[0]
+
     _evaluatePath(s: mas, t: transform, l: fulldicttransform,  
                  src: mas, tt: transform, b: builtins):
       return _evaluate(s, path_t, l, src, tt, b)
