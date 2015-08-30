@@ -142,10 +142,9 @@ Note that evaluate doesn't work on declarations, and has no knowledge of them.
         return _evaluateDict(s, t, l, src, tt, b)
       t is listtransform:
         t[0] == "&&":
-          return _flatten(_evaluateList(s, t, l, src, tt, b))
+          return _flatten(_evaluateList(s, t[1:], l, src, tt, b))
         else
           return _evaluateList(s, t, l, src, tt, b)
-            where t2 = t[1:] if t[0] == "&&" else t
       t is pathheadtransform:
         return _evaluateHeadPath(s, t[1:], l, src, tt, b)
       t is pathtransform:
