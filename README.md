@@ -3,7 +3,7 @@ The specification for sUTL Universal Transform Language, v0.2
 
 [Try the online editor here!](http://emlynoregan.github.io/sUTL_js/)
 
-[Javascript implementation with online editor here!](https://github.com/emlynoregan/sUTL_js)
+[Javascript implementation here!](https://github.com/emlynoregan/sUTL_js)
 
 sUTL is a Lisp dialect that is specified in and operates natively on MAS structures (Maps/Dicts, Arrays/Lists, Simple Types) in a host language. MAS structures are defined as exactly those which successfully serialise to JSON and deserialise from JSON, so JSON is a convenient way to think about MAS. However, it is important to remember that MAS is not JSON; it is the territory to JSON's map.
 
