@@ -178,5 +178,32 @@ distributions.push(
         "reduce_core_emlynoregan_com"
       ]
     }
+    {
+      "name": "removenulls_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": {
+        "!": "#*.reduce_core_emlynoregan_com",
+        "list": "#@.list",
+        "t": {"'": {
+         "&": "if",
+         "cond": "#@.item",
+         "true": {
+             "&": "if",
+             "cond": "#@.accum",
+             "true": ["&&", "#@.accum", ["#@.item"]],
+             "false": ["#@.item"]
+         },
+         "false": {
+             "&": "if",
+             "cond": "#@.accum",
+             "true": ["&&", "#@.accum"],
+             "false": []
+         }
+        }}
+      },
+      "requires": [
+        "reduce_core_emlynoregan_com"
+      ]
+    }
   ]
 )
