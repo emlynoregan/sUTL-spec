@@ -110,6 +110,19 @@ distributions.push(
       "name": "tail_core_emlynoregan_com",
       "language": "sUTL0",
       "transform-t": "##@.list[1:]"
+    },
+    {
+      "name": "concat_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": [
+        "&&",
+        "#*.head_core_emlynoregan_com",
+        "#*.tail_core_emlynoregan_com"
+      ],
+      "requires": [
+        "head_core_emlynoregan_com", 
+        "tail_core_emlynoregan_com"
+      ]
     }
   ]
 )
