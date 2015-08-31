@@ -177,7 +177,7 @@ distributions.push(
       "requires": [
         "reduce_core_emlynoregan_com"
       ]
-    }
+    },
     {
       "name": "removenulls_core_emlynoregan_com",
       "language": "sUTL0",
