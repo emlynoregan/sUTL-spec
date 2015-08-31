@@ -74,7 +74,7 @@ distributions.push(
       "transform-t":
       {
         "&": "if",
-        "cond": "#@.in",
+        "cond": "#@.list",
         "true": {
           "'": [
             "&&",
