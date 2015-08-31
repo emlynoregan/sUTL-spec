@@ -117,6 +117,11 @@ distributions.push(
       "transform-t": "##@.list[1:]"
     },
     {
+      "name": "front_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": "##@.list[:-1]"
+    },
+    {
       "name": "concat_core_emlynoregan_com",
       "language": "sUTL0",
       "transform-t": [ 
