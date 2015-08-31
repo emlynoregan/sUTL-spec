@@ -1,26 +1,35 @@
-distributions.push([
+distributions.push(
+[
   {
-    "name": "fred_l_emlynoregan_com",
+    "name": "example_core_emlynoregan_com",
     "language": "sUTL0",
-    "transform-t": "fred!!!"
+    "transform-t": "Core: Example"
   },
   {
-    "name": "fredlist_l_emlynoregan_com",
+    "name": "example2_core_emlynoregan_com",
     "language": "sUTL0",
-    "transform-t": [ "#*.fred_l", "#*.fred_l" ],
+    "transform-t": [ "#*.example_core", "#*.example_core" ],
     "test-t": {
       "&": "if",
       "cond": {"'": 
         {
           "&": "!=",
-          "a": "#*.fred_l",
-          "b": "fred!!!"
+          "a": "#*.example_core",
+          "b": "Core: Example"
         }
       },
-      "true": "fred behaves unexpectedly",
+      "true": "example_core behaves unexpectedly",
       "false": null
     },
-    "requires": ["fred_l"]
+    "requires": ["example_core"]
+  },
+  {
+    "name": "example3fails_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": "Core: Example 3",
+    "test-t": [
+      "Example 3 Fails"
+    ]
   },
   {
     "name": "map_l_emlynoregan_com",
@@ -55,4 +64,5 @@ distributions.push([
     },
     "requires": ["map_l_emlynoregan_com"]
   }
-])
+]
+)
