@@ -161,6 +161,22 @@ distributions.push(
         "#@.a",
         "#@.b"
       ]
+    },
+    {
+      "name": "sum_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": {
+        "!": "#*.reduce_core_emlynoregan_com",
+        "list": "#@.list",
+        "t": {"'": {
+          "&": "+",
+          "a": "#@.accum",
+          "b": "#@.item"
+        }}
+      },
+      "requires": [
+        "reduce_core_emlynoregan_com"
+      ]
     }
   ]
 )
