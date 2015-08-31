@@ -107,6 +107,11 @@ distributions.push(
       "transform-t": "#@.list[0]"
     },
     {
+      "name": "last_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": "#@.list[-1:]"
+    },
+    {
       "name": "tail_core_emlynoregan_com",
       "language": "sUTL0",
       "transform-t": "##@.list[1:]"
