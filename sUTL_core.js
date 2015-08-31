@@ -45,14 +45,14 @@ distributions.push(
               "!": "#@.t",
               "item": {
                 "!": "#*.head_core_emlynoregan_com",
-                "in": "#@.list"
+                "list": "#@.list"
               }
             },
             {
               "!": "#*.map_core_emlynoregan_com",
               "list": {
                 "!": "#*.tail_core_emlynoregan_com",
-                "in": "#@.list"
+                "list": "#@.list"
               },
               "t": "#@.t"
             }
@@ -80,14 +80,14 @@ distributions.push(
             "&&",
             {
               "!": "#*.reverse_core_emlynoregan_com",
-              "in": {
+              "list": {
                 "!": "#*.tail_core_emlynoregan_com",
-                "in": "#@.in"
+                "list": "#@.list"
               }
             },
             {
               "!": "#*.head_core_emlynoregan_com",
-              "in": "#@.in"
+              "list": "#@.list"
             }
           ]
         },
@@ -104,12 +104,12 @@ distributions.push(
     {
       "name": "head_core_emlynoregan_com",
       "language": "sUTL0",
-      "transform-t": "#@.in[0]"
+      "transform-t": "#@.list[0]"
     },
     {
       "name": "tail_core_emlynoregan_com",
       "language": "sUTL0",
-      "transform-t": "##@.in[1:]"
+      "transform-t": "##@.list[1:]"
     }
   ]
 )
