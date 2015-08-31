@@ -69,6 +69,39 @@ distributions.push(
       ]
     },
     {
+      "name": "reverse_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t":
+      {
+        "&": "if",
+        "cond": "#@.in",
+        "true": {
+          "'": [
+            "&&",
+            {
+              "!": "#*.reverse_core_emlynoregan_com",
+              "in": {
+                "!": "#*.tail_core_emlynoregan_com",
+                "in": "#@.in"
+              }
+            },
+            {
+              "!": "#*.head_core_emlynoregan_com",
+              "in": "#@.in"
+            }
+          ]
+        },
+        "false": {
+          "'": []
+        }
+      },
+      "requires": [
+        "reverse_core_emlynoregan_com", 
+        "head_core_emlynoregan_com", 
+        "tail_core_emlynoregan_com"
+      ]
+    },
+    {
       "name": "head_core_emlynoregan_com",
       "language": "sUTL0",
       "transform-t": "#@.in[0]"
