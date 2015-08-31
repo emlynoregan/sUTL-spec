@@ -49,7 +49,7 @@ distributions.push(
               }
             },
             {
-              "!": "#*.map_l_emlynoregan_com",
+              "!": "#*.map_core_emlynoregan_com",
               "list": {
                 "!": "#*.tail_core_emlynoregan_com",
                 "in": "#@.list"
