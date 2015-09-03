@@ -262,6 +262,76 @@ distributions.push(
         }}
       },
       "requires": ["reduce_core_emlynoregan_com", "sum_core_emlynoregan_com"]
+    },
+    {
+      "name": "example2_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": {
+        "&": "if",
+        "cond": {"'": {
+          "&": "<",
+          "a": 0,
+          "b": {
+            "!": "#*.count_core",
+            "obj": "#@.list"
+          }
+        }},
+        "true": {"'": [
+          "&&",
+          [
+            {
+              "!": "#*.reduce_core", 
+              "list": "#@.list",
+              "accum": [],
+              "t": {"'": [
+                "&&",
+                "#@.accum",
+                {
+                  "!": "#*.head_core",
+                  "list": "#@.item"
+                }
+              ]}
+            }
+          ],
+          {
+            "!": "#$.zip",
+            "list": {
+              "!": "#*.reduce_core", 
+              "list": "#@.list",
+              "accum": [],
+              "t": {"'": [
+                "&&",
+                "#@.accum",
+                [
+                  {
+                    "!": "#*.tail_core",
+                    "list": "#@.item"
+                  }
+                ]
+              ]}
+            }
+          }
+        ]},
+        "false": []
+      },
+      "test-t": {
+        "&": "if",
+        "cond": {"'": 
+          {
+            "&": "!=",
+            "a": "#*.example_core",
+            "b": "Core: Example"
+          }
+        },
+        "true": "example_core behaves unexpectedly",
+        "false": null
+      },
+      "requires": [
+        "count_core_emlynoregan.com", 
+        "require_core_emlynoregan.com",
+        "head_core_emlynoregan.com", 
+        "tail_core_emlynoregan.com"
+      ]
     }
   ]
 )
