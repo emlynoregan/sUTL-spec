@@ -264,7 +264,7 @@ distributions.push(
       "requires": ["reduce_core_emlynoregan_com", "sum_core_emlynoregan_com"]
     },
     {
-      "name": "example2_core_emlynoregan_com",
+      "name": "zip_core_emlynoregan_com",
       "language": "sUTL0",
       "transform-t": {
         "&": "if",
@@ -272,7 +272,7 @@ distributions.push(
           "&": "<",
           "a": 0,
           "b": {
-            "!": "#*.count_core",
+            "!": "#*.count_core_emlynoregan_com",
             "obj": "#@.list"
           }
         }},
@@ -280,14 +280,14 @@ distributions.push(
           "&&",
           [
             {
-              "!": "#*.reduce_core", 
+              "!": "#*.reduce_core_emlynoregan_com", 
               "list": "#@.list",
               "accum": [],
               "t": {"'": [
                 "&&",
                 "#@.accum",
                 {
-                  "!": "#*.head_core",
+                  "!": "#*.head_core_emlynoregan_com",
                   "list": "#@.item"
                 }
               ]}
@@ -296,7 +296,7 @@ distributions.push(
           {
             "!": "#$.zip",
             "list": {
-              "!": "#*.reduce_core", 
+              "!": "#*.reduce_core_emlynoregan_com", 
               "list": "#@.list",
               "accum": [],
               "t": {"'": [
@@ -304,7 +304,7 @@ distributions.push(
                 "#@.accum",
                 [
                   {
-                    "!": "#*.tail_core",
+                    "!": "#*.tail_core_emlynoregan_com",
                     "list": "#@.item"
                   }
                 ]
@@ -313,18 +313,6 @@ distributions.push(
           }
         ]},
         "false": []
-      },
-      "test-t": {
-        "&": "if",
-        "cond": {"'": 
-          {
-            "&": "!=",
-            "a": "#*.example_core",
-            "b": "Core: Example"
-          }
-        },
-        "true": "example_core behaves unexpectedly",
-        "false": null
       },
       "requires": [
         "count_core_emlynoregan.com", 
