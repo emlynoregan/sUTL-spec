@@ -321,6 +321,41 @@ distributions.push(
         "tail_core_emlynoregan_com",
         "zip_core_emlynoregan_com"
       ]
+    },
+    {
+      "name": "addmaps_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": {
+        "&": "makemap",
+        "value": {
+          "!": "#*.zip_core_emlynoregan_com",
+          "list": [
+            [
+              "&&",
+              {
+                "&": "keys",
+                "map": "#@.map1"
+              },
+              {
+                "&": "keys",
+                "map": "#@.map2"
+              }
+            ],
+            [
+              "&&",
+              {
+                "&": "values",
+                "map": "#@.map1"
+              },
+              {
+                "&": "values",
+                "map": "#@.map2"
+              }
+            ]
+          ]
+        }
+      },
+      "requires": ["zip_core_emlynoregan_com"]
     }
   ]
 )
