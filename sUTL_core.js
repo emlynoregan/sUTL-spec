@@ -410,12 +410,16 @@ distributions.push(
       "transform-t": 
       {
         "&": "makemap",
-        "value": {
-          "!": "#*.zip_core_emlynoregan_com",
-          "list": ["#@.list", []]
+        "value":
+        {
+          "!": "#*.map_core_emlynoregan_com",
+          "list": "#@.list",
+          "t": {"'": 
+            [[ "#@.item", true]]
+          }
         }
       },
-      "requires": ["zip_core_emlynoregan_com"]
+      "requires": ["map_core_emlynoregan_com"]
     }
   ]
 )
