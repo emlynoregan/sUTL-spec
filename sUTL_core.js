@@ -204,6 +204,37 @@ distributions.push(
       "requires": [
         "reduce_core_emlynoregan_com"
       ]
+    },
+    {
+      "name": "count_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": 
+      {
+        "&": "if",
+        "cond": {"'": {
+          "&": "=",
+          "a": "list",
+          "b": {
+            "&": "type",
+            "value": "#@.obj"
+          }
+        }},
+        "true": {"'": {
+            "!": "#*.reduce_core",
+            "list": "#@.obj",
+            "accum": 0,
+            "t": {"'": {
+              "&": "+",
+              "a": {
+                "!": "#*.count_core",
+                "obj": "#@.item"
+              },
+              "b": "#@.accum"
+            }}
+        }},
+        "false": {"'": 1}
+      },
+      "requires": ["reduce_core_emlynoregan_com", "count_core_emlynoregan_com"]
     }
   ]
 )
