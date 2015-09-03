@@ -163,22 +163,6 @@ distributions.push(
       ]
     },
     {
-      "name": "sum_core_emlynoregan_com",
-      "language": "sUTL0",
-      "transform-t": {
-        "!": "#*.reduce_core_emlynoregan_com",
-        "list": "#@.list",
-        "t": {"'": {
-          "&": "+",
-          "a": "#@.accum",
-          "b": "#@.item"
-        }}
-      },
-      "requires": [
-        "reduce_core_emlynoregan_com"
-      ]
-    },
-    {
       "name": "removenulls_core_emlynoregan_com",
       "language": "sUTL0",
       "transform-t": {
@@ -220,13 +204,13 @@ distributions.push(
           }
         }},
         "true": {"'": {
-            "!": "#*.reduce_core",
+            "!": "#*.reduce_core_emlynoregan_com",
             "list": "#@.obj",
             "accum": 0,
             "t": {"'": {
               "&": "+",
               "a": {
-                "!": "#*.count_core",
+                "!": "#*.count_core_emlynoregan_com",
                 "obj": "#@.item"
               },
               "b": "#@.accum"
@@ -235,6 +219,49 @@ distributions.push(
         "false": {"'": 1}
       },
       "requires": ["reduce_core_emlynoregan_com", "count_core_emlynoregan_com"]
+    },
+    {
+      "name": "sum_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": 
+      {
+        "&": "if",
+        "cond": {"'": {
+          "&": "=",
+          "a": "list",
+          "b": {
+            "&": "type",
+            "value": "#@.obj"
+          }
+        }},
+        "true": {"'": {
+            "!": "#*.reduce_core_emlynoregan_com",
+            "list": "#@.obj",
+            "accum": 0,
+            "t": {"'": {
+              "&": "+",
+              "a": {
+                "!": "#*.sum_core_emlynoregan_com",
+                "obj": "#@.item"
+              },
+              "b": "#@.accum"
+            }}
+        }},
+        "false": {"'": { 
+          "&": "if",
+          "cond": {"'": {
+            "&": "=",
+            "a": "number",
+            "b": {
+              "&": "type",
+              "value": "#@.obj"
+            }
+          }},
+          "true": {"'": "#@.obj"},
+          "false": 0
+        }}
+      },
+      "requires": ["reduce_core_emlynoregan_com", "sum_core_emlynoregan_com"]
     }
   ]
 )
