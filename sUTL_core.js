@@ -315,11 +315,11 @@ distributions.push(
         "false": []
       },
       "requires": [
-        "zip_core_emlynoregan.com", 
         "count_core_emlynoregan.com", 
         "require_core_emlynoregan.com",
         "head_core_emlynoregan.com", 
-        "tail_core_emlynoregan.com"
+        "tail_core_emlynoregan.com",
+        "zip_core_emlynoregan.com"
       ]
     }
   ]
