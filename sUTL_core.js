@@ -356,6 +356,53 @@ distributions.push(
         }
       },
       "requires": ["zip_core_emlynoregan_com"]
+    },
+    {
+      "name": "mapget_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": {
+        "!": "#*.head_core_emlynoregan_com",
+        "list":
+        {
+          "&": "path",
+          "path": {
+            "&": "+",
+            "a": {"'": "@.map"},
+            "b": {
+              "&": "+",
+              "a": ".",
+              "b": "#@.key"
+            }
+          }
+        }
+      },
+      "requires": ["head_core_emlynoregan_com"]
+    },
+    {
+      "name": "arrget_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": 
+      {
+        "!": "#*.head_core_emlynoregan_com",
+        "list":
+        {
+          "&": "path",
+          "path": {
+            "&": "+",
+            "a": {"'": "@.map"},
+            "b": {
+              "&": "+",
+              "a": "[",
+              "b": {
+                "&": "+",
+                "a": "#@.ix",
+                "b": "]"
+              }
+            }
+          }
+        }
+      },
+      "requires": ["head_core_emlynoregan_com"]
     }
   ]
 )
