@@ -403,6 +403,19 @@ distributions.push(
         }
       },
       "requires": ["head_core_emlynoregan_com"]
+    },
+    {
+      "name": "keys2map_core_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": 
+      {
+        "&": "makemap",
+        "value": {
+          "!": "#*.zip_core_emlynoregan_com",
+          "list": ["#@.list", []]
+        }
+      },
+      "requires": ["zip_core_emlynoregan_com"]
     }
   ]
 )
