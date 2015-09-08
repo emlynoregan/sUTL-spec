@@ -1,0 +1,63 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>xdloader remote</title>
+</head>
+<body>
+    <script>
+
+
+window.addEventListener('load', function load(event) {
+    postMsg({
+        name: 'remoteready',
+    }, '*');
+}, false);
+
+window.addEventListener('message', function receiveMessage(e) {
+    
+    var msg = JSON.parse(e.data)
+    if (msg.command == 'ajax') {
+        ajaxrequest(msg);
+    }
+
+}, false);
+
+function ajaxrequest(msg){
+    var msg2 = {
+        id: msg.id,
+        name: 'ajax.response',
+        method: msg.method.toUpperCase(),
+        path: msg.path,
+    };
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() 
+    {
+        if (xmlhttp.readyState == 4) {
+            
+            msg2.status = xmlhttp.status;
+            msg2.statusText = xmlhttp.statusText;
+            
+            if (xmlhttp.status == 200 || xmlhttp.status == 0) {
+
+                msg2.responseText = xmlhttp.responseText;
+            } 
+            postMsg(msg2, '*');
+        }
+    }
+    xmlhttp.open(msg.method || "GET", msg.path, true);
+    var senddata = msg.data || '';
+    if (msg.json !== false) {
+        senddata = JSON.stringify(senddata);
+    }    
+    xmlhttp.send(senddata);
+}
+
+function postMsg(msg) {
+    window.parent.postMessage(JSON.stringify(msg), '*');
+}
+
+</script>
+</body>
+</html>
