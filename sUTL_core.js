@@ -434,7 +434,7 @@ distributions.push(
           "t": {"'": 
             {
               "!": "#*.test_tst_emlynoregan_com",
-              "test-t": "#@.item.test-t",
+              "test-t": {"'": "#@.item.test-t"},
               "name": "#@.item.name"
             }
           }
