@@ -452,7 +452,7 @@ distributions.push(
       "transform-t": 
       {
         "&": "if",
-        "cond": {"'": {"!": "#@.test-t"}},
+        "cond": {"'": "#@.test-t"},
         "true": {"'": "#@.name"},
         "false": null
       }
