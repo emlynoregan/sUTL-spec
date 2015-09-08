@@ -427,20 +427,6 @@ distributions.push(
       "transform-t": 
       {
         "!": "#*.removenulls_core_emlynoregan_com",
-        "list": "#@.tests",
-      }
-      "requires": [
-        "map_core_emlynoregan_com", 
-        "test_tst_emlynoregan_com"
-        "removenulls_core_emlynoregan_com"
-      ]
-    },
-    {
-      "name": "xtests_tst_emlynoregan_com",
-      "language": "sUTL0",
-      "transform-t": 
-      {
-        "!": "#*.removenulls_core_emlynoregan_com",
         "list": 
         {
           "!": "#*.map_core_emlynoregan_com",
@@ -453,7 +439,7 @@ distributions.push(
             }
           }
         }
-      }
+      },
       "requires": [
         "map_core_emlynoregan_com", 
         "test_tst_emlynoregan_com"
