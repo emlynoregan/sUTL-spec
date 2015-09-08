@@ -456,6 +456,21 @@ distributions.push(
         "true": {"'": "#@.name"},
         "false": null
       }
+    },
+    {
+      "name": "asserttrue_tst_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": 
+      {
+        "&": "if",
+        "cond": {"'": {
+          "&": "=",
+          {"'": "#@.test-t"},
+          true
+        }},
+        "true": null,
+        "false": {"'": "#@.name"}
+      }
     }
   ]
 )
