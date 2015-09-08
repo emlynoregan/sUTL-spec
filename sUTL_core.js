@@ -462,9 +462,15 @@ distributions.push(
       "language": "sUTL0",
       "transform-t": 
       {
-        "&": "=",
-        "a": "#@.test-t",
-        "b": true
+        "&": "if",
+        "cond": {"'": 
+        {
+          "&": "=",
+          "a": "#@.test-t",
+          "b": true
+        }},
+        "true": null,
+        "false": "fails"
       }
     }
   ]
