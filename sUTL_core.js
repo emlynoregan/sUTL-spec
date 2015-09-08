@@ -465,8 +465,8 @@ distributions.push(
         "&": "if",
         "cond": {"'": {
           "&": "=",
-          {"'": "#@.test-t"},
-          true
+          "a": {"'": "#@.test-t"},
+          "b": true
         }},
         "true": null,
         "false": {"'": "#@.name"}
