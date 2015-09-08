@@ -442,7 +442,7 @@ distributions.push(
       },
       "requires": [
         "map_core_emlynoregan_com", 
-        "test_tst_emlynoregan_com"
+        "test_tst_emlynoregan_com",
         "removenulls_core_emlynoregan_com"
       ]
     },
