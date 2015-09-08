@@ -453,8 +453,8 @@ distributions.push(
       {
         "&": "if",
         "cond": "#@.test-t",
-        "true": "#@.name",
-        "false": null
+        "true": null,
+        "false": "#@.name"
       }
     },
     {
