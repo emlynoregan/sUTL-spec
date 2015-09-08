@@ -420,6 +420,42 @@ distributions.push(
         }
       },
       "requires": ["map_core_emlynoregan_com"]
+    },
+    {
+      "name": "tests_tst_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": 
+      {
+        "!": "#*.removenulls_core_emlynoregan_com",
+        "list": 
+        {
+          "!": "#*.map_core_emlynoregan_com",
+          "list": "#@.tests",
+          "t": {"'": 
+            {
+              "!": "#.test_tst_emlynoregan_com",
+              "test-t": "#@.item.test-t",
+              "name": "#@.item.name"
+            }
+          }
+        }
+      }
+      "requires": [
+        "map_core_emlynoregan_com", 
+        "test_tst_emlynoregan_com"
+        "removenulls_core_emlynoregan_com"
+      ]
+    },
+    {
+      "name": "test_tst_emlynoregan_com",
+      "language": "sUTL0",
+      "transform-t": 
+      {
+        "&": "if",
+        "cond": {"'": "#@.test-t"},
+        "true": {"'": "#@.name"},
+        "false": null
+      }
     }
   ]
 )
