@@ -8,7 +8,7 @@
       "tests": {"'": [
         {
           "name": "this one fails",
-          "test-t": False
+          "test-t": false
         }
       ]}
     },
