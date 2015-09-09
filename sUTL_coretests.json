@@ -11,7 +11,7 @@
           "test-t": false
         },
       ]}
-    },
+    }
     "requires": [
       "tests_tst"
     ]
