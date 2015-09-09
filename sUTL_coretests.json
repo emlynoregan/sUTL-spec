@@ -1,25 +1,93 @@
 [
   {
-    "name": "example_core_emlynoregan_com",
+    "name": "equalitytests_coretests_emlynoregan_com",
     "language": "sUTL0",
-    "transform-t": "Core: Example"
-  },
-  {
-    "name": "example2_core_emlynoregan_com",
-    "language": "sUTL0",
-    "transform-t": [ "#*.example_core", "#*.example_core" ],
-    "test-t": {
-      "&": "if",
-      "cond": {"'": 
+    "transform-t":   
+    {
+      "!": "#*.tests_tst",
+      "tests": {"'": [
         {
-          "&": "!=",
-          "a": "#*.example_core",
-          "b": "Core: Example"
+          "name": "true",
+          "test-t": true
+        },
+        {
+          "name": "false",
+          "test-t": {
+            "&": "!",
+            "a": false
+          }
+        },
+        {
+          "name": "null",
+          "test-t": {
+            "&": "!",
+            "a": null
+          }
+        },
+        {
+          "name": "null eq null",
+          "test-t": {
+            "&": "=",
+            "a": null,
+            "b": null
+          }  
+        },
+        {
+          "name": "null ne num",
+          "test-t": {
+            "&": "!=",
+            "a": null,
+            "b": 5
+          }  
+        },
+        {
+          "name": "false ne null",
+          "test-t": {
+            "&": "!=",
+            "a": null,
+            "b": false
+          }  
+        },
+        {
+          "name": "false ne 0",
+          "test-t": {
+            "&": "!=",
+            "a": 0,
+            "b": false
+          }  
+        },
+        {
+          "name": "1 ne 0",
+          "test-t": {
+            "&": "!=",
+            "a": 1,
+            "b": 0
+          }  
+        },
+        {
+          "name": "\"1\" ne 1",
+          "test-t": {
+            "&": "!=",
+            "a": "1",
+            "b": 1
+          }  
+        },
+        {
+          "name": "\"1\" + 1",
+          "test-t": {
+            "&": "=",
+            "a": "11",
+            "b": {
+              "&": "+",
+              "a": "1",
+              "b": 1
+            }  
+          }
         }
-      },
-      "true": "example_core behaves unexpectedly",
-      "false": null
+      ]}
     },
-    "requires": ["example_core"]
+    "requires": [
+      "tests_tst"
+    ]
   }
 ]
