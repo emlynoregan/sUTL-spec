@@ -1,5 +1,22 @@
 [
   {
+    "name": "failtest_emlynoregan.com",
+    "language": "sUTL0",
+    "transform-t":   
+    {
+      "!": "#*.tests_tst",
+      "tests": {"'": [
+        {
+          "name": "this one fails",
+          "test-t": False
+        }
+      ]}
+    },
+    "requires": [
+      "tests_tst"
+    ]
+  },
+  {
     "name": "equalitytests_coretests_emlynoregan_com",
     "language": "sUTL0",
     "transform-t":   
