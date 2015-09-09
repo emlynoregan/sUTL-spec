@@ -9,9 +9,9 @@
         {
           "name": "this one fails",
           "test-t": false
-        },
+        }
       ]}
-    }
+    },
     "requires": [
       "tests_tst"
     ]
