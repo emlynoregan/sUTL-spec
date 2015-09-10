@@ -421,6 +421,29 @@
     "requires": ["map_core_emlynoregan_com"]
   },
   {
+    "name": "filter_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.reduce_core_emlynoregan_com",
+      "list": "#@.list",
+      "accum": [],
+      "t": {"'": [
+        "&&",
+        "#@.accum",
+        {
+          "&": "if",
+          "cond": {"'": 
+            {"''": "#@filter-t"}
+          },
+          "true": ["#@.item"],
+          "false": []
+        }
+      ]}
+    },
+    "requires": ["reduce_core_emlynoregan_com"]
+  },
+  {
     "name": "tests_tst_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": 
