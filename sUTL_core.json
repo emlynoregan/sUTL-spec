@@ -520,4 +520,39 @@
       "filter_core_emlynoregan_com"
     ]
   }
+  {
+    "name": "removekeys_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "&": "makemap",
+      "value":
+      {
+        "!": "#*.zip_core_emlynoregan_com",
+        "list": [
+          {
+            "!": "#*.filter_core_emlynoregan_com",
+            "list": {"&": "keys", "map": "#@.map"},
+            "filter-t": {"'": {
+              "&": "!",
+              "a": {
+                "!": "#*.isinlist_core_emlynoregan_com",
+                "list": {"''": "#@.keys"},
+                "item": "#@.item"
+              }
+            }}
+          },
+          {
+            "&": "values",
+            "map": "#@.map"
+          }
+        ]
+      }
+    },
+    "requires": [
+      "zip_core_emlynoregan_com", 
+      "filter_core_emlynoregan_com",
+      "isinlist_core_emlynoregan_com",
+    ]
+  }
 ]
