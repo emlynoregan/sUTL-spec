@@ -533,7 +533,7 @@
           {
             "!": "#*.subtractarrs_core_emlynoregan_com",
             "arr1": {"&": "keys", "map": "#@.map"},
-            "arr2": "#@keys"
+            "arr2": "#@.keys"
           },
           {
             "!": "#*.map_core_emlynoregan_com",
@@ -541,7 +541,7 @@
             {
               "!": "#*.subtractarrs_core_emlynoregan_com",
               "arr1": {"&": "keys", "map": "#@.map"},
-              "arr2": "#@keys"
+              "arr2": "#@.keys"
             },
             "t": {"'": {
               "!": "#*.mapget_core_emlynoregan_com",
@@ -565,7 +565,7 @@
     "transform-t": 
     {
       "!": "#*.filter_core_emlynoregan_com",
-      "list": "#@arr1",
+      "list": "#@.arr1",
       "filter-t": {"'": {
         "&": "!",
         "a": {
