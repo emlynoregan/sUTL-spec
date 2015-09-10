@@ -531,28 +531,53 @@
         "!": "#*.zip_core_emlynoregan_com",
         "list": [
           {
-            "!": "#*.filter_core_emlynoregan_com",
-            "list": {"&": "keys", "map": "#@.map"},
-            "filter-t": {"'": {
-              "&": "!",
-              "a": {
-                "!": "#*.isinlist_core_emlynoregan_com",
-                "list": {"''": "#@.keys"},
-                "item": "#@.item"
-              }
-            }}
+            "!": "#*.subtractarrs_core_emlynoregan_com",
+            "arr1": {"&": "keys", "map": "#@.map"},
+            "arr2": "#@keys"
           },
           {
-            "&": "values",
-            "map": "#@.map"
+            "!": "#*.map_core_emlynoregan_com",
+            "list":        
+            {
+              "!": "#*.subtractarrs_core_emlynoregan_com",
+              "arr1": {"&": "keys", "map": "#@.map"},
+              "arr2": "#@keys"
+            },
+            "t": {"'": {
+              "!": "#*.mapget_core_emlynoregan_com",
+              "map": {"''": "#@.map"},
+              "key": "#@.item"
+            }}
           }
         ]
       }
-    },
+    }
     "requires": [
       "zip_core_emlynoregan_com", 
-      "filter_core_emlynoregan_com",
-      "isinlist_core_emlynoregan_com"
+      "map_core_emlynoregan_com",
+      "mapget_core_emlynoregan_com",
+      "subtractarrs_core_emlynoregan_com"
+    ]
+  },
+  {
+    "name": "subtractarrs_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.filter_core_emlynoregan_com",
+      "list": "#@arr1",
+      "filter-t": {"'": {
+        "&": "!",
+        "a": {
+          "!": "#*.isinlist_core_emlynoregan_com",
+          "list": {"''": "#@.arr2"},
+          "item": "#@.item"
+        }
+      }}
+    },
+    "requires": [
+      "isinlist_core_emlynoregan_com", 
+      "filter_core_emlynoregan_com"
     ]
   }
 ]
