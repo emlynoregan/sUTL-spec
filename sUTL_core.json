@@ -285,10 +285,11 @@
             "t": {"'": [
               "&&",
               "#@.accum",
-              {
+              [
+                {
                 "!": "#*.head_core_emlynoregan_com",
                 "list": "#@.item"
-              }
+              }]
             ]}
           }
         ],
