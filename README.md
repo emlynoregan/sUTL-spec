@@ -55,12 +55,16 @@ The primary purpose of sUTL is to be a universal transform tool that operates ac
 - - [subtractarrs](#subtractarrs)
 
 ## MAS
-MAS has been chosen because analogues are available in most computer languages, particularly the dynamic languages (javascript, python, perl, ...), and these analogues are often fundamental data structures in the host language, meaning the host language can be very expressive when dealing with these structures, and large parts of the host language tend to deal exclusively in these structures. This makes sUTL live very comfortably inside these language, and minimises impedence mismatches at the interface between sUTL and its hosts.
+MAS has been chosen because analogues are available in most computer languages, particularly the dynamic languages (javascript, python, perl, ...), and these analogues are often fundamental data structures in the host language, meaning the host language can be very expressive when dealing with these structures, and large parts of the host language tend to deal exclusively in these structures. This makes sUTL live very comfortably inside these languages, and minimises impedence mismatches at the interface between sUTL and its hosts.
 
 ## Transforms
 sUTL is not strictly a functional language, in that its fundamental unit is a Transform rather than a Function. A Transform is conceptually more like what languages such as XSLT, Mustache, Smarty, and Jinja deal in, but in expressive power it is at least as powerful as non-lazy higher order dynamic language functions and shares many characteristics with them. 
 
 It is perfectly possible to reason about sUTL transforms by drawing the analogy to Lisp functions, and most theory from the lambda calculus, the various Lisps, and functions in general can be transferred to transforms. 
+
+For concrete examples of what transforms are, try the following:
+- [Transforming Tweets with sUTL](https://medium.com/@emlynoregan/transforming-tweets-with-sutl-1567663c322d) is a simple introduction to Transforms.
+- The [core library distribution](http://emlynoregan.github.io/sUTL-spec/sUTL_core.json) is a list of declarations; check out the Transforms there for some advanced examples.
 
 ## Declarations
 Transforms in sUTL don't have any kind of contract with callers, except what might be gleaned by analysing their details. 
