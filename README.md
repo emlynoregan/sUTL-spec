@@ -501,9 +501,469 @@ evaluates to
     
     [ 3, 7 ]
     
+### type
+    
+Given any MAS structure, "type" evaluates to a string describing the type, as follows:
+
+- dict: "map",
+- list: "list",
+- string: "string",
+- number: "number",
+- boolean: "boolean",
+- null: "null"
+
+Format:
+
+    {
+        "&": "type",
+        "value": mas,
+    }
+
+Example:
+    
+    {
+        "&": "type",
+        "value": [1, 2, 3]
+    }
+    
+evaluates to 
+    
+    "list"
+    
+### makemap
+    
+Given a list of pairs (two element lists), "makemap" makes a dictionary, where the first element of each sub list becomes a key, the second the corresponding value. Sublists that aren't two elements long or where the first element is not a string are skipped.
+
+Format:
+
+    {
+        "&": "makemap",
+        "value": list,
+    }
+
+Example:
+    
+    {
+        "&": "makemap",
+        "value": [["b", 3], ["f", 7]]
+    }
+    
+evaluates to 
+    
+    {
+        "b": 3,
+        "f": 7
+    }
+
+### Binary arithmetic operators
+
+These all expect numeric operands "a" and "b". "+" also accepts strings.
+
+- "+": Addition on numbers, Concatenation on strings.
+- "-": Subtraction
+- "*": Multiplication
+- "/": Division
+
+Format:
+
+    {
+        "&": "*",
+        "a": <number>,
+        "b": <number>
+    }
+
+Example:
+    
+    {
+        "&": "*",
+        "a": 4,
+        "b": 6.4
+    }
+    
+evaluates to 
+    
+    25.6
+
+### Equality operators
+
+These are "=" and "!=" for equal and not equal, respectively. They evaluate to a boolean.
+
+- If the operands are simple types (string, number, bool), both operands are the same type, and both operands have the same value, then "=" evaluates to true. 
+- If both operands are null, then "=" evaluates to true. 
+- In all other cases "=" evaluates to false.
+
+"!=" evaluates to the opposite of "=". So
+
+    {
+        "&": "!=",
+        "a": <value>,
+        "b": <value>
+    }
+
+is always equivalent to
+
+    {
+        "&": "!",
+        "a": {
+            "&": "=",
+            "a": <value>,
+            "b": <value>
+        }
+    }
+
+### Comparison operators
+
+These operators compare two operands, "a" and "b" as left and right sides respectively. 
+
+- If the operands are numbers, then the operation is applied and the transform evaluates to a boolean.
+- Otherwise it evaluates to null.
+
+Operators:
+
+- ">": greater than
+- "<": less than
+- ">=": greater than or equal to
+- "<=": less than or equal to
+
+Format:
+    {
+        "&": ">",
+        "a": <value>,
+        "b": <value>
+    }
+
+Example:
+
+    {
+        "&": ">",
+        "a": 4,
+        "b": 3
+    }
+
+evaluates to 
+
+    true
+
+### Logical operators
+
+These operators include the following:
+
+- "&&": and,
+- "||": or,
+- "!": not
+
+"&&" and "||" take left operand "a" and right operand "b", and return a boolean result.
+"!" takes a single operand "a" and returns a boolean result.
+
+The operands are evaluated for truthiness. A mas structure is truthy if it is not falsey. It is falsey if
+
+- it is the boolean value false,
+- it is the number 0,
+- it is the empty string,
+- it is the empty list,
+- it is the empty dictionary, or
+- it is null
+
+Evaluation:
+
+- "&&" evaluates to true if both operands are truthy, false otherwise
+- "!!" evaluates to true if either or both operands are truthy, false otherwise
+- "!" evaluates to true if its operand is falsey, false otherwise
+
+Format:
+
+    {
+        "&": "&&",
+        "a": <value>,
+        "b": <value>
+    }
+
+Example:
+
+    {
+        "&": "&&",
+        "a": true,
+        "b": true
+    }
+
+evaluates to 
+
+    true
+
 ## Core
 
-There is a core library "core_emlynoregan_com" available at [http://emlynoregan.github.io/sUTL-spec/sUTL_core.json] .
+There is a core library distribution "core_emlynoregan_com" available at [http://emlynoregan.github.io/sUTL-spec/sUTL_core.json].
 
+All transforms in core are named <name>_core_emlynoregan_com. You can refer to them just as <name>, or as <name>_core, or <name>_core_emlynoregan_com, or any other prefix of <name>_core_emlynoregan_com beginning with <name>.
 
+To use the core library transforms, you need to load the distribution from json at  [http://emlynoregan.github.io/sUTL-spec/sUTL_core.json], put that in a distribution list with any other distributions you wish to use. 
+
+    distributions = [ <core lib>, ... ] 
+
+Then, create a declaration from your transform that uses the core library, like so:
+
+    my_t = {
+        "!": "#*.map",
+        "list": [1, 2, 3, 4],
+        "t": {"'": {
+            "&": "*",
+            "a": "#@.item",
+            "b": 2
+        }}
+    }
+
+    my_decl = {
+      "transform-t": my_t,
+      "requires": ["map"]
+    }
+    
+    my_decls = [my_decl, ...]
+
+The declaration above imports "map" (which is in the core library) by putting it in a requires section, then refers to it as "*.map" in the actual transform.
+
+Then call compilelib like this:
+
+    lib = compilelib(my_decls, distributions, {}, false, builtins)
+    
+    result = evaluate(source, my_t, lib, builtins)
+
+The transforms included in the core library distribution are as follows:
+
+### map
+
+map takes a list and a transform, and applies the transform to each element in the list. Inside the supplied transform, the current list element is available in local scope as "item". 
+
+Format:
+
+    {
+        "!": "#*.map",
+        "list": list,
+        "t": transform
+    }
+
+Example:
+
+    {
+        "!": "#*.map",
+        "list": [1, 2, 3, 4],
+        "t": {"'": {
+            "&": "*",
+            "a": "#@.item",
+            "b": 2
+        }}
+    }
+
+evaluates to
+
+    [2, 4, 6, 8]
+
+### reduce
+
+reduce takes a list and a transform, and an accumulator (null if none is provided). 
+
+If the list is empty, it evaluates to the accumulator.
+
+Otherwise, it evaluates to a reduce on the tail of the list, with the accumulator as the evaluation of the given transform "t", applied to the head of the list, with the head available as "item" and the previous accumulator as "accum" in "t"'s local scope.
+
+Format:
+
+    {
+        "!": "#*.reduce",
+        "list": list,
+        "t": transform,
+        "accum": mas
+    }
+
+Example:
+
+    {
+        "!": "#*.reduce",
+        "list": [1, 2, 3, 4],
+        "accum": 1,
+        "t": {"'": {
+            "&": "*",
+            "a": "#@.item",
+            "b": "#@.accum"
+        }}
+    }
+
+evaluates to
+    
+    24
+
+What's happening in this example? The elements of the list are multiplied together, with a running total held in the accumulator.
+
+### reverse
+
+reverse takes a list and evaluates to its reverse (elements in opposite order). 
+
+Format:
+
+    {
+        "!": "#*.reverse",
+        "list": list
+    }
+
+Example:
+
+    {
+        "!": "#*.reverse",
+        "list": [1, 2, 3, 4]
+    }
+
+evaluates to
+    
+    [4, 3, 2, 1]
+
+### head, tail, front, last
+
+These all take a list.
+
+head evaluates to the first element of the list
+
+tail evaluates to the list containing all elements except the head
+
+last evaluates to the last element of the list
+
+front evaluates to the list containing all elements except the last
+
+Format:
+
+    {
+        "!": "#*.head",
+        "list": list
+    }
+
+Example 1:
+
+    {
+        "!": "#*.head",
+        "list": [1, 2, 3, 4]
+    }
+
+evaluates to
+    
+    1
+
+Example 2:
+
+    {
+        "!": "#*.tail",
+        "list": [1, 2, 3, 4]
+    }
+
+evaluates to
+    
+    [2, 3, 4]
+
+### concat
+
+Given two lists, it concatenates them into one.
+
+If either operand is not a list, treated as a list containing one element.
+
+Format:
+
+    {
+        "!": "#*.concat",
+        "a": list,
+        "b": list
+    }
+
+Example 1:
+
+    {
+        "!": "#*.concat",
+        "a": [1, 2, 3, 4],
+        "b": [5, 6, 7]
+    }
+
+evaluates to
+    
+    [1, 2, 3, 4, 5, 6, 7]
+
+Example 2:
+
+    {
+        "!": "#*.concat",
+        "a": 1,
+        "b": [2, 3]
+    }
+
+evaluates to
+    
+    [1, 2, 3]
+
+### removenulls
+
+Given a list, it evaluates to the same list with nulls removed.
+
+Format:
+
+    {
+        "!": "#*.removenulls",
+        "list": list
+    }
+
+Example:
+
+    {
+        "!": "#*.removenulls",
+        "list": [1, 2, null, 3, 4]
+    }
+
+evaluates to
+    
+    [1, 2, 3, 4]
+
+### count
+
+Counts the number of elements of an object. This is calculated as:
+
+- Object is a list? Transitively count each element of the list, and sum the total.
+- Otherwise, the count is 1.
+
+So count of 5 is 1, count of null is 1, count of a dict is 1, count of a list of three numbers is 3, count of a list of three lists each containing two elements is 6.
+
+This is very useful as a test of empiness of a list, where you want to treat lists of empty lists as empty. For example, [[], [], [[], []]] has a count of 0.
+
+Format:
+
+    {
+        "!": "#*.count",
+        "obj": mas
+    }
+
+Example:
+
+    {
+        "!": "#*.count",
+        "obj": [1, 2, [3, 4], 5, 6, [7, [8, 9]]]
+    }
+
+evaluates to
+    
+    9
+
+### sum
+
+Sums the numbers in a list, ignoring non numbers, and summing sublists transitively, exactly like count does.
+
+Format:
+
+    {
+        "!": "#*.sum",
+        "obj": mas
+    }
+
+Example:
+
+    {
+        "!": "#*.sum",
+        "obj": [1, 2, [3, 4], 5, 6, [7, [8, 9]]]
+    }
+
+evaluates to
+    
+    45
 
