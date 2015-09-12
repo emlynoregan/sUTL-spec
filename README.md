@@ -73,6 +73,22 @@ Declarations are a wrapper around a transform, and are analogous to a mix of a f
 
 A declaration is a dictionary that includes a main transform, and some optional additional information. It can be thought of as a function signature, an interface, or a contract. 
 
+eg:
+    {
+        "name": "addone",
+        "transform-t": 
+        {
+          "!": "#*.map",
+          "list": "#@list",
+          "t": {"'": {
+              "&": "+",
+              "a": "#@.item",
+              "b": 1
+          }}
+        },
+        "requires": ["map"]
+    }
+
 The attributes of the declaration include:
 - "name": A name for other declarations to use when requiring this declaration.
 - "transform-t": This is the main transform, ie: the actual transform being declared. Required.
