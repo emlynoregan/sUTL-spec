@@ -74,8 +74,9 @@ Declarations are a wrapper around a transform, and are analogous to a mix of a f
 A declaration is a dictionary that includes a main transform, and some optional additional information. It can be thought of as a function signature, an interface, or a contract. 
 
 The attributes of the declaration include:
+- "name": A name for other declarations to use when requiring this declaration.
 - "transform-t": This is the main transform, ie: the actual transform being declared. Required.
-- "requires": This is a list of publishnames. These describe the declared transforms (declarations) that are expected to be in the library when the main transform is evaluated. Optional.
+- "requires": This is a list of declaration names. These describe the declared transforms (declarations) that are expected to be in the library when the main transform is evaluated. Optional.
 - "test-t": This is a special transform, which can be used to test the transform "transform-t". When evaluated on "transform-t" as its source, it is falsey if the test succeeds, or truthy if it fails. A convention is that a failed (truthy) result should be a list of strings, describing what failures occured in the test. See the function compilelib() below for details on how these tests can be invoked.
 
 With further regard to tests, you will note that there is no specification of versioning in Declarations, or in "requires" sections. However, it is intended that many uses of sUTL will involve pulling declarations of functions from websites at run time or whenever desired. This means that a transform written to expect a particular library transform, say A, can receive a modified version, say A', at a later time. There are no guarantees that A is in any way similar to A'.
