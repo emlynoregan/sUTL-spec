@@ -10,6 +10,21 @@ sUTL is a Lisp dialect that is specified in and operates natively on MAS structu
 
 The primary purpose of sUTL is to be a universal transform tool that operates across many languages; whether you use Python, Javascript, Java, etc, you should be able to use sUTL transforms. As the library of well tested transforms grows, they can potentially be easily accessible in any host language, and should always evaluate identically regardless of the host environment chosen.
 
+## Contents
+
+- [MAS](#mas)
+- [Transforms](#transforms)
+- [Declarations](#declarations)
+- [Naming](#naming)
+- [Distribution](#distribution)
+- [Grammar](#grammar)
+- [Functions](#basic-functions-of-sutl)
+- - [evaluate](#evaluate)
+- - [compilelib](#compilelib)
+- [Assembling The Distributions](#assembling-the-distributions)
+- [Builtins](#builtins)
+- [Core](#core)
+
 
 ## MAS
 MAS has been chosen because analogues are available in most computer languages, particularly the dynamic languages (javascript, python, perl, ...), and these analogues are often fundamental data structures in the host language, meaning the host language can be very expressive when dealing with these structures, and large parts of the host language tend to deal exclusively in these structures. This makes sUTL live very comfortably inside these language, and minimises impedence mismatches at the interface between sUTL and its hosts.
@@ -328,7 +343,9 @@ It is intended that dists should be sourceable from anywhere that makes sense; u
 
 ## Builtins
 
-## Core - the first transform library
+
+
+## Core
 
 There is a core library "core_emlynoregan_com" available at [http://emlynoregan.github.io/sUTL-spec/sUTL_core.json] .
 
