@@ -368,32 +368,36 @@ The builtins are as follows:
 The path builtin evaluates a [JSONPath](http://goessner.net/articles/JsonPath/), and returns the list of MAS objects that the path selects.
 
 Format:
+
     {
-      "&": "path",
-      "path": <JSONPath>
+        "&": "path",
+        "path": <JSONPath>
     }
 
 Standard JSONPaths start with "$" as the root of the source document. The path builtin allows the following alternatives:
 
-"$": The root of the source document
-"@": The local scope
-"*": The library
-"~": The root of the transform
+- "$": The root of the source document
+- "@": The local scope
+- "*": The library
+- "~": The root of the transform
 
 So for example,
+
 - "$.thing.stuff" selects the value of the attribute "stuff" in the dictionary "thing" at the root of the source MAS structure
 - "@.item" selects the value of the attribute "item" in the local scope, eg:
     
     {
-      "!": {"'": {
-        "&": "+",
-        "a": "#@.item",
-        "b": 1
-      }},
-      "item": 5
+        "!": {"'": {
+            "&": "+",
+            "a": "#@.item",
+            "b": 1
+        }},
+        "item": 5
     },
 
-evaluates to 6
+evaluates to 
+
+    6
 
 - "*.map" selects the transform "map" from the library. "map" is available in the core library (see [core](#core)).
 
@@ -401,47 +405,102 @@ Note that the path builtin is so central to sUTL that it has two special string 
 
     "##" + <JSONPath>
     
-    is equivalent to
+is equivalent to
     
     {
         "&": "path",
         "path": <JSONPath>
     }
     
-    ie: it evaluates to a list containing zero or more selected items
+ie: it evaluates to a list containing zero or more selected items
 
 and
 
     "#" + <JSONPath>
     
-    is equivalent to the head of the list returned by   
+is equivalent to the head of the list returned by   
     
     "##" + <JSONPath>
     
-    or null if the list is empty.
-    
-    Also equivalent to
+or null if the list is empty. It'a also equivalent to
     
     {
-      "!": "*.head",
-      "list": "##" + <JSONPath>
+        "!": "#*.head",
+        "list": "##" + <JSONPath>
     }
 
-    using "*.head" from the core library.
+using "*.head" from the core library.
 
 ### if
 
 "if" is a conditional statement. If the transform "cond" evaluates to true, it evaluates to the transform "true", or to the transform "false" otherwise.  
 
 Format:
+
     {
-      "&": "if",
-      "cond": transform,
-      "true": transform,
-      "false": transform
+        "&": "if",
+        "cond": transform,
+        "true": transform,
+        "false": transform
     }
 
+Example:
+    
+    {
+        "&": "if",
+        "cond": { "&": ">", "a": 3, "b": 4 },
+        "true": "3 is greater than 4",
+        "false": "3 is not greater than 4"
+    }
+    
+evaluates to 
+    
+    "3 is not greater than 4"
 
+### keys    
+    
+Given a dictionary, "keys" evaluates to the list of keys (in no particular order).
+
+Format:
+
+    {
+        "&": "keys",
+        "map": dictionary,
+    }
+
+Example:
+    
+    {
+        "&": "keys",
+        "map": {"b": 3, "f": 7}
+    }
+    
+evaluates to 
+    
+    [ "b", "f" ]
+    
+### values    
+    
+Given a dictionary, "values" evaluates to the list of values (in no particular order).
+
+Format:
+
+    {
+        "&": "values",
+        "map": dictionary,
+    }
+
+Example:
+    
+    {
+        "&": "values",
+        "map": {"b": 3, "f": 7}
+    }
+    
+evaluates to 
+    
+    [ 3, 7 ]
+    
 ## Core
 
 There is a core library "core_emlynoregan_com" available at [http://emlynoregan.github.io/sUTL-spec/sUTL_core.json] .
