@@ -74,6 +74,7 @@ Declarations are a wrapper around a transform, and are analogous to a mix of a f
 A declaration is a dictionary that includes a main transform, and some optional additional information. It can be thought of as a function signature, an interface, or a contract. 
 
 eg:
+
     {
         "name": "addone",
         "transform-t": 
