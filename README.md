@@ -103,7 +103,8 @@ Instead of using versioning to address this concern, sUTL uses tests to allow a 
 Also note that if you want to separate the concerns of acceptance testing a required transform from testing your own transform, you can write the acceptance tests as part of a separate, "testing" transform, and require it in your own transform. Separated like this, you can also consume someone else's test transforms rather than writing your own.
 
 ### Naming
-To be publishable, ie: to be able to be required by another transform, the declaration must include a name. This is a structured string, which should include naming from most specific to most general, separated by underscores. eg: "map_core_emlynoregan_com"
+To be publishable, ie: to be able to be required by another transform, the declaration must include a name. This is a structured string, which should include naming from most specific to most general, separated by underscores. eg: "map_core_emlynoregan_com".
+
 In a "requires" list, a requirement matches the first declaration it finds where the require name is equal to or is a prefix of the declaration's name.
 
 eg: A requirement of "map_core" would match a declaration name of "map_core_emlynoregan_com", but it would also match "map_core_mock". This construct should allow dependency injection semantics to be achieved.
