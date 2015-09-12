@@ -343,6 +343,103 @@ It is intended that dists should be sourceable from anywhere that makes sense; u
 
 ## Builtins
 
+Builtins are functions from the host language that provide the basic operations of sUTL. Everything else builds on the builtins.
+
+Builtins are invoked like so:
+
+    {
+      "&": <builtin name>,
+      key: transform, ...
+    }
+
+eg:
+
+    {
+      "&": "+",
+      "a": 5,
+      "b": 1
+    }
+
+would evaluate to 6.
+
+The builtins are as follows:
+
+### path
+The path builtin evaluates a [JSONPath](http://goessner.net/articles/JsonPath/), and returns the list of MAS objects that the path selects.
+
+Format:
+    {
+      "&": "path",
+      "path": <JSONPath>
+    }
+
+Standard JSONPaths start with "$" as the root of the source document. The path builtin allows the following alternatives:
+
+"$": The root of the source document
+"@": The local scope
+"*": The library
+"~": The root of the transform
+
+So for example,
+- "$.thing.stuff" selects the value of the attribute "stuff" in the dictionary "thing" at the root of the source MAS structure
+- "@.item" selects the value of the attribute "item" in the local scope, eg:
+    
+    {
+      "!": {"'": {
+        "&": "+",
+        "a": "#@.item",
+        "b": 1
+      }},
+      "item": 5
+    },
+
+evaluates to 6
+
+- "*.map" selects the transform "map" from the library. "map" is available in the core library (see [core](#core)).
+
+Note that the path builtin is so central to sUTL that it has two special string notations:
+
+    "##" + <JSONPath>
+    
+    is equivalent to
+    
+    {
+        "&": "path",
+        "path": <JSONPath>
+    }
+    
+    ie: it evaluates to a list containing zero or more selected items
+
+and
+
+    "#" + <JSONPath>
+    
+    is equivalent to the head of the list returned by   
+    
+    "##" + <JSONPath>
+    
+    or null if the list is empty.
+    
+    Also equivalent to
+    
+    {
+      "!": "*.head",
+      "list": "##" + <JSONPath>
+    }
+
+    using "*.head" from the core library.
+
+### if
+
+"if" is a conditional statement. If the transform "cond" evaluates to true, it evaluates to the transform "true", or to the transform "false" otherwise.  
+
+Format:
+    {
+      "&": "if",
+      "cond": transform,
+      "true": transform,
+      "false": transform
+    }
 
 
 ## Core
