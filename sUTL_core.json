@@ -379,32 +379,6 @@
     "requires": ["head_core_emlynoregan_com"]
   },
   {
-    "name": "arrget_core_emlynoregan_com",
-    "language": "sUTL0",
-    "transform-t": 
-    {
-      "!": "#*.head_core_emlynoregan_com",
-      "list":
-      {
-        "&": "path",
-        "path": {
-          "&": "+",
-          "a": {"'": "@.list"},
-          "b": {
-            "&": "+",
-            "a": "[",
-            "b": {
-              "&": "+",
-              "a": "#@.ix",
-              "b": "]"
-            }
-          }
-        }
-      }
-    },
-    "requires": ["head_core_emlynoregan_com"]
-  },
-  {
     "name": "keys2map_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": 
