@@ -285,10 +285,11 @@
             "t": {"'": [
               "&&",
               "#@.accum",
-              {
+              [
+                {
                 "!": "#*.head_core_emlynoregan_com",
                 "list": "#@.item"
-              }
+              }]
             ]}
           }
         ],
@@ -378,32 +379,6 @@
     "requires": ["head_core_emlynoregan_com"]
   },
   {
-    "name": "arrget_core_emlynoregan_com",
-    "language": "sUTL0",
-    "transform-t": 
-    {
-      "!": "#*.head_core_emlynoregan_com",
-      "list":
-      {
-        "&": "path",
-        "path": {
-          "&": "+",
-          "a": {"'": "@.map"},
-          "b": {
-            "&": "+",
-            "a": "[",
-            "b": {
-              "&": "+",
-              "a": "#@.ix",
-              "b": "]"
-            }
-          }
-        }
-      }
-    },
-    "requires": ["head_core_emlynoregan_com"]
-  },
-  {
     "name": "keys2map_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": 
@@ -419,5 +394,165 @@
       }
     },
     "requires": ["map_core_emlynoregan_com"]
+  },
+  {
+    "name": "filter_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.reduce_core_emlynoregan_com",
+      "list": "#@.list",
+      "accum": [],
+      "t": {"'": [
+        "&&",
+        "#@.accum",
+        {
+          "&": "if",
+          "cond": {"'": 
+            {"''": "#@.filter-t"}
+          },
+          "true": ["#@.item"],
+          "false": []
+        }
+      ]}
+    },
+    "requires": ["reduce_core_emlynoregan_com"]
+  },
+  {
+    "name": "tests_tst_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.removenulls_core_emlynoregan_com",
+      "list": 
+      {
+        "!": "#*.map_core_emlynoregan_com",
+        "list": "#@.tests",
+        "t": {"'": 
+          {
+            "!": "#*.test_tst_emlynoregan_com",
+            "test-t": "#@.item.test-t",
+            "name": "#@.item.name"
+          }
+        }
+      }
+    },
+    "requires": [
+      "map_core_emlynoregan_com", 
+      "test_tst_emlynoregan_com",
+      "removenulls_core_emlynoregan_com"
+    ]
+  },
+  {
+    "name": "test_tst_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "&": "if",
+      "cond": "#@.test-t",
+      "true": null,
+      "false": "#@.name"
+    }
+  },
+  {
+    "name": "asserttrue_tst_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "&": "if",
+      "cond": {"'": 
+      {
+        "&": "=",
+        "a": "#@.test-t",
+        "b": true
+      }},
+      "true": null,
+      "false": "fails"
+    }
+  },
+  {
+    "name": "isinlist_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "&": ">",
+      "a": {
+        "!": "#*.count_core_emlynoregan_com",
+        "obj": {
+          "!": "#*.filter_core_emlynoregan_com",
+          "list": "#@.list",
+          "filter-t": {"'": {
+            "&": "=",
+            "a": "#@.item",
+            "b": {"''": "#@.item"}
+          }}
+        }
+      },
+      "b": 0
+    },
+    "requires": [
+      "count_core_emlynoregan_com", 
+      "filter_core_emlynoregan_com"
+    ]
+  },
+  {
+    "name": "removekeys_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "&": "makemap",
+      "value":
+      {
+        "!": "#*.zip_core_emlynoregan_com",
+        "list": [
+          {
+            "!": "#*.subtractarrs_core_emlynoregan_com",
+            "arr1": {"&": "keys", "map": "#@.map"},
+            "arr2": "#@.keys"
+          },
+          {
+            "!": "#*.map_core_emlynoregan_com",
+            "list":        
+            {
+              "!": "#*.subtractarrs_core_emlynoregan_com",
+              "arr1": {"&": "keys", "map": "#@.map"},
+              "arr2": "#@.keys"
+            },
+            "t": {"'": [{
+              "!": "#*.mapget_core_emlynoregan_com",
+              "map": {":": {"''": "#@.map"}},
+              "key": "#@.item"
+            }]}
+          }
+        ]
+      }
+    },
+    "requires": [
+      "zip_core_emlynoregan_com", 
+      "map_core_emlynoregan_com",
+      "mapget_core_emlynoregan_com",
+      "subtractarrs_core_emlynoregan_com"
+    ]
+  },
+  {
+    "name": "subtractarrs_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.filter_core_emlynoregan_com",
+      "list": "#@.arr1",
+      "filter-t": {"'": {
+        "&": "!",
+        "a": {
+          "!": "#*.isinlist_core_emlynoregan_com",
+          "list": {"''": "#@.arr2"},
+          "item": "#@.item"
+        }
+      }}
+    },
+    "requires": [
+      "isinlist_core_emlynoregan_com", 
+      "filter_core_emlynoregan_com"
+    ]
   }
 ]
