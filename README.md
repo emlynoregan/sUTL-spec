@@ -967,3 +967,226 @@ evaluates to
     
     45
 
+### zip
+
+Takes a list of lists, and performs a [convolution](https://en.wikipedia.org/wiki/Convolution_(computer_science)) 
+If the lists don't match up, the result is padded with nulls
+
+Format:
+
+    {
+        "!": "#*.zip",
+        "list": list
+    }
+
+Example 1:
+
+    {
+        "!": "#*.zip",
+        "list": [["b", "f"], [3, 7]]
+    }
+
+evaluates to
+    
+    [["b", 3], ["f": 7]]
+
+Example 2:
+
+    {
+        "!": "#*.zip",
+        "list": [
+          ["a", "b", "c"], 
+          [1, 2, 3],
+          [4, 5, 6],
+          [true, false]
+        ]
+    }
+
+evaluates to:
+
+    [
+      ["a", 1, 4, true],
+      ["b", 2, 5, false],
+      ["c", 3, 6, null]
+    ]
+
+### addmaps
+
+Takes two dicts and merges them. "map2" takes precedence over "map1".
+
+Format:
+
+    {
+        "!": "#*.addmaps",
+        "map1": dictionary,
+        "map2": dictionary,
+    }
+
+Example:
+
+    {
+        "!": "#*.addmaps",
+        "map1": {"a": 1, "b": 2},
+        "map2": {"b": 5, "c": 6}
+    }
+
+evaluates to
+    
+    {
+      "a": 1,
+      "b": 5,
+      "c": 6
+    }
+
+### removekeys
+
+Takes a dict and a list of keys, and removes keys in the key list from two dictionary, ignoring any that don't appear.
+
+Format:
+
+    {
+        "!": "#*.removekeys",
+        "map": dictionary,
+        "keys": list,
+    }
+
+Example:
+
+    {
+        "!": "#*.removekeys",
+        "map": {"a": 1, "b": 2},
+        "keys": ["b", "c"]
+    }
+
+evaluates to
+    
+    {
+      "a": 1
+    }
+
+### mapget
+
+Given a map and a key, evaluate to the value for that key in the map.
+
+Format:
+
+    {
+        "!": "#*.mapget",
+        "map": dictionary,
+        "key": string,
+    }
+
+Example:
+
+    {
+        "!": "#*.mapget",
+        "map": {"a": 1, "b": 2},
+        "keys": "b"
+    }
+
+evaluates to
+    
+    2
+
+### keys2map
+
+Given a list of keys, make a dict with these keys and the boolean value true.
+
+Format:
+
+    {
+        "!": "#*.keys2map",
+        "list": list,
+    }
+
+Example:
+
+    {
+        "!": "#*.keys2map",
+        "list": ["a", "b", "c"]
+    }
+
+evaluates to
+    
+    {
+      "a": true,
+      "b": true,
+      "c": true
+    }
+    
+### filter
+
+Given a list and a filter transform, evaluate to the same list with all items removed where the filter transform evaluates to falsey. In the filter transform, the current item is available as "item".
+
+Format:
+
+    {
+        "!": "#*.filter",
+        "list": list,
+        "filter-t": transform
+    }
+
+Example:
+
+    {
+        "!": "#*.filter",
+        "list": ["a", "b", "c"],
+        "filter-t": {"'": {
+          "&": "!=",
+          "a": "#@.item",
+          "b": "b"
+        }}
+    }
+
+evaluates to
+    
+    ["a", "c"]
+
+### isinlist
+
+Given a list and an item, evaluate to true if item is in the list, false otherwise.
+
+Format:
+
+    {
+        "!": "#*.isinlist",
+        "list": list,
+        "item": mas
+    }
+
+Example:
+
+    {
+        "!": "#*.isinlist",
+        "list": ["a", "b", "c"],
+        "item": "b"
+    }
+
+evaluates to
+    
+    true
+
+### subtractarrs
+
+Given two lists arr1 and arr2, subtract arr2 from arr1.
+
+Format:
+
+    {
+        "!": "#*.subtractarrs",
+        "arr1": list,
+        "arr2": list
+    }
+
+Example:
+
+    {
+        "!": "#*.subtractarrs",
+        "arr1": ["a", "b", "c"],
+        "arr2": ["b", "d", "a"]
+    }
+
+evaluates to
+    
+    ["c"]
+
