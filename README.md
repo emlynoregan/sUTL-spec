@@ -55,12 +55,16 @@ The primary purpose of sUTL is to be a universal transform tool that operates ac
 - - [subtractarrs](#subtractarrs)
 
 ## MAS
-MAS has been chosen because analogues are available in most computer languages, particularly the dynamic languages (javascript, python, perl, ...), and these analogues are often fundamental data structures in the host language, meaning the host language can be very expressive when dealing with these structures, and large parts of the host language tend to deal exclusively in these structures. This makes sUTL live very comfortably inside these language, and minimises impedence mismatches at the interface between sUTL and its hosts.
+MAS has been chosen because analogues are available in most computer languages, particularly the dynamic languages (javascript, python, perl, ...), and these analogues are often fundamental data structures in the host language, meaning the host language can be very expressive when dealing with these structures, and large parts of the host language tend to deal exclusively in these structures. This makes sUTL live very comfortably inside these languages, and minimises impedence mismatches at the interface between sUTL and its hosts.
 
 ## Transforms
 sUTL is not strictly a functional language, in that its fundamental unit is a Transform rather than a Function. A Transform is conceptually more like what languages such as XSLT, Mustache, Smarty, and Jinja deal in, but in expressive power it is at least as powerful as non-lazy higher order dynamic language functions and shares many characteristics with them. 
 
 It is perfectly possible to reason about sUTL transforms by drawing the analogy to Lisp functions, and most theory from the lambda calculus, the various Lisps, and functions in general can be transferred to transforms. 
+
+For concrete examples of what transforms are, try the following:
+- [Transforming Tweets with sUTL](https://medium.com/@emlynoregan/transforming-tweets-with-sutl-1567663c322d) is a simple introduction to Transforms.
+- The [core library distribution](http://emlynoregan.github.io/sUTL-spec/sUTL_core.json) is a list of declarations; check out the Transforms there for some advanced examples.
 
 ## Declarations
 Transforms in sUTL don't have any kind of contract with callers, except what might be gleaned by analysing their details. 
@@ -69,9 +73,27 @@ Declarations are a wrapper around a transform, and are analogous to a mix of a f
 
 A declaration is a dictionary that includes a main transform, and some optional additional information. It can be thought of as a function signature, an interface, or a contract. 
 
+eg:
+
+    {
+        "name": "addone",
+        "transform-t": 
+        {
+          "!": "#*.map",
+          "list": "#@list",
+          "t": {"'": {
+              "&": "+",
+              "a": "#@.item",
+              "b": 1
+          }}
+        },
+        "requires": ["map"]
+    }
+
 The attributes of the declaration include:
+- "name": A name for other declarations to use when requiring this declaration.
 - "transform-t": This is the main transform, ie: the actual transform being declared. Required.
-- "requires": This is a list of publishnames. These describe the declared transforms (declarations) that are expected to be in the library when the main transform is evaluated. Optional.
+- "requires": This is a list of declaration names. These describe the declared transforms (declarations) that are expected to be in the library when the main transform is evaluated. Optional.
 - "test-t": This is a special transform, which can be used to test the transform "transform-t". When evaluated on "transform-t" as its source, it is falsey if the test succeeds, or truthy if it fails. A convention is that a failed (truthy) result should be a list of strings, describing what failures occured in the test. See the function compilelib() below for details on how these tests can be invoked.
 
 With further regard to tests, you will note that there is no specification of versioning in Declarations, or in "requires" sections. However, it is intended that many uses of sUTL will involve pulling declarations of functions from websites at run time or whenever desired. This means that a transform written to expect a particular library transform, say A, can receive a modified version, say A', at a later time. There are no guarantees that A is in any way similar to A'.
@@ -81,7 +103,8 @@ Instead of using versioning to address this concern, sUTL uses tests to allow a 
 Also note that if you want to separate the concerns of acceptance testing a required transform from testing your own transform, you can write the acceptance tests as part of a separate, "testing" transform, and require it in your own transform. Separated like this, you can also consume someone else's test transforms rather than writing your own.
 
 ### Naming
-To be publishable, ie: to be able to be required by another transform, the declaration must include a name. This is a structured string, which should include naming from most specific to most general, separated by underscores. eg: "map_basics_emlynoregan_com"
+To be publishable, ie: to be able to be required by another transform, the declaration must include a name. This is a structured string, which should include naming from most specific to most general, separated by underscores. eg: "map_core_emlynoregan_com".
+
 In a "requires" list, a requirement matches the first declaration it finds where the require name is equal to or is a prefix of the declaration's name.
 
 eg: A requirement of "map_core" would match a declaration name of "map_core_emlynoregan_com", but it would also match "map_core_mock". This construct should allow dependency injection semantics to be achieved.
