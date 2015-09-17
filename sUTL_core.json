@@ -539,5 +539,32 @@
     "requires": [
       "reduce_core_emlynoregan_com"
     ]
+  },
+  {
+    "name": "hasitems_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "&": "if",
+      "cond": {"'": {
+        "&": "=",
+        "a": "list",
+        "b": {
+          "&": "type",
+          "value": "#@.obj"
+        }
+      }},
+      "true": {"'": {
+          "&": "if",
+          "cond": {
+            "&": "!=",
+            "a": "#@.obj[0]",
+            "b": null
+          },
+          "true": true,
+          "false": false
+      }},
+      "false": false
+    }  
   }
 ]
