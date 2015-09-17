@@ -523,5 +523,21 @@
       "isinlist_core_emlynoregan_com", 
       "filter_core_emlynoregan_com"
     ]
+  },
+  {
+    "name": "pipeline_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.reduce_core_emlynoregan_com",
+      "list": "#@.list-t",
+      "t": {"'": {
+        "!": "#@.item",
+        "p": "#@.accum"
+      }}
+    },
+    "requires": [
+      "reduce_core_emlynoregan_com"
+    ]
   }
 ]
