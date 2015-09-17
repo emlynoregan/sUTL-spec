@@ -547,16 +547,27 @@
         }
       }},
       "true": {"'": {
-          "&": "if",
-          "cond": {
-            "&": "!=",
-            "a": "#@.list[0]",
-            "b": null
+        "&": "if",
+        "cond": {"'": "##@.list[0]"},
+        "true": {"'": {
+          "&": "||",
+          "a": {
+            "!": "#$.hasitems_core_emlynoregan_com",
+            "list": {"''": "#@.list[0]"}
           },
-          "true": true,
-          "false": false
+          "b": {
+            "!": "#$.hasitems_core_emlynoregan_com",
+            "list": {"''": "##@.list[1:]"}
+          }
+        }},
+        "false": false
       }},
-      "false": false
-    }  
+      "false": {
+        "&": "!=",
+        "a": "#@.list",
+        "b": null
+      }
+    },
+    "requires": ["hasitems_core_emlynoregan_com"]
   }
 ]
