@@ -237,12 +237,8 @@
     "transform-t": {
       "&": "if",
       "cond": {"'": {
-        "&": "<",
-        "a": 0,
-        "b": {
-          "!": "#*.count_core_emlynoregan_com",
-          "obj": "#@.list"
-        }
+        "!": "#*.hasitems_core_emlynoregan_com",
+        "list": "#@.list"
       }},
       "true": {"'": [
         "&&",
@@ -284,7 +280,7 @@
       "false": []
     },
     "requires": [
-      "count_core_emlynoregan_com", 
+      "hasitems_core_emlynoregan_com", 
       "require_core_emlynoregan_com",
       "head_core_emlynoregan_com", 
       "tail_core_emlynoregan_com",
@@ -444,23 +440,19 @@
     "language": "sUTL0",
     "transform-t": 
     {
-      "&": ">",
-      "a": {
-        "!": "#*.count_core_emlynoregan_com",
-        "obj": {
-          "!": "#*.filter_core_emlynoregan_com",
-          "list": "#@.list",
-          "filter-t": {"'": {
-            "&": "=",
-            "a": "#@.item",
-            "b": {"''": "#@.item"}
-          }}
-        }
-      },
-      "b": 0
+      "!": "#*.hasitems_core_emlynoregan_com",
+      "list": {
+        "!": "#*.filter_core_emlynoregan_com",
+        "list": "#@.list",
+        "filter-t": {"'": {
+          "&": "=",
+          "a": "#@.item",
+          "b": {"''": "#@.item"}
+        }}
+      }
     },
     "requires": [
-      "count_core_emlynoregan_com", 
+      "hasitems_core_emlynoregan_com", 
       "filter_core_emlynoregan_com"
     ]
   },
@@ -551,14 +543,14 @@
         "a": "list",
         "b": {
           "&": "type",
-          "value": "#@.obj"
+          "value": "#@.list"
         }
       }},
       "true": {"'": {
           "&": "if",
           "cond": {
             "&": "!=",
-            "a": "#@.obj[0]",
+            "a": "#@.list[0]",
             "b": null
           },
           "true": true,
