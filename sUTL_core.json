@@ -557,15 +557,16 @@
           "b": 0
         }},
         "true": {"'": {
-          "&": "||",
-          "a": {
+          "&": "if",
+          "cond": {"'": {
             "!": "#*.hasitems_core_emlynoregan_com",
             "list": {"''": "#@.list[0]"}
-          },
-          "b": {
+          }},
+          "true": true,
+          "false": {"'": {
             "!": "#*.hasitems_core_emlynoregan_com",
             "list": {"''": "##@.list[1:]"}
-          }
+          }}
         }},
         "false": false
       }},
