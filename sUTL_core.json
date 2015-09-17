@@ -552,11 +552,11 @@
         "true": {"'": {
           "&": "||",
           "a": {
-            "!": "#$.hasitems_core_emlynoregan_com",
+            "!": "#*.hasitems_core_emlynoregan_com",
             "list": {"''": "#@.list[0]"}
           },
           "b": {
-            "!": "#$.hasitems_core_emlynoregan_com",
+            "!": "#*.hasitems_core_emlynoregan_com",
             "list": {"''": "##@.list[1:]"}
           }
         }},
