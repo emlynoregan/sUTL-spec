@@ -41,26 +41,38 @@
     "language": "sUTL0",
     "transform-t": {
       "&": "if",
-      "cond": "#@.list",
-      "true": { "'": {
-        "!": "#*.reduce_core_emlynoregan_com",
-        "list": {
-          "!": "#*.tail_core_emlynoregan_com",
-          "list": "#@.list"
-        },
+      "cond": {"'": {
+        "&": "hasreduce"
+      }},
+      "true": {"'": {
+        "&": "reduce",
+        "list": "#@.list",
         "t": "#@.t",
-        "accum": {
-          "!": "#@.t",
-          "item": {
-            "!": "#*.head_core_emlynoregan_com",
+        "accum": "#@.accum"
+      }},
+      "false": {":": {
+        "&": "if",
+        "cond": "#@.list",
+        "true": { "'": {
+          "!": "#*.reduce_core_emlynoregan_com",
+          "list": {
+            "!": "#*.tail_core_emlynoregan_com",
             "list": "#@.list"
           },
-          "accum": "#@.accum"
+          "t": "#@.t",
+          "accum": {
+            "!": "#@.t",
+            "item": {
+              "!": "#*.head_core_emlynoregan_com",
+              "list": "#@.list"
+            },
+            "accum": "#@.accum"
+          }
+        }},
+        "false": {
+          "'": "#@.accum"
         }
-      }},
-      "false": {
-        "'": "#@.accum"
-      }
+      }}
     },
     "requires": [
       "reduce_core_emlynoregan_com", 
