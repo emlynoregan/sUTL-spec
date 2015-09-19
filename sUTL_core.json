@@ -230,7 +230,7 @@
     "requires": ["reduce_core_emlynoregan_com", "sum_core_emlynoregan_com"]
   },
   {
-    "name": "zipprev_core_emlynoregan_com",
+    "name": "prevzip_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
       "&": "if",
