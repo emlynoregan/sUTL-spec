@@ -51,28 +51,26 @@
         "accum": "#@.accum"
       }},
       "false": {":": {
-        {
-          "&": "if",
-          "cond": "#@.list",
-          "true": { "'": {
-            "!": "#*.reduce_core_emlynoregan_com",
-            "list": {
-              "!": "#*.tail_core_emlynoregan_com",
+        "&": "if",
+        "cond": "#@.list",
+        "true": { "'": {
+          "!": "#*.reduce_core_emlynoregan_com",
+          "list": {
+            "!": "#*.tail_core_emlynoregan_com",
+            "list": "#@.list"
+          },
+          "t": "#@.t",
+          "accum": {
+            "!": "#@.t",
+            "item": {
+              "!": "#*.head_core_emlynoregan_com",
               "list": "#@.list"
             },
-            "t": "#@.t",
-            "accum": {
-              "!": "#@.t",
-              "item": {
-                "!": "#*.head_core_emlynoregan_com",
-                "list": "#@.list"
-              },
-              "accum": "#@.accum"
-            }
-          }},
-          "false": {
-            "'": "#@.accum"
+            "accum": "#@.accum"
           }
+        }},
+        "false": {
+          "'": "#@.accum"
         }
       }}
     },
