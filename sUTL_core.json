@@ -230,7 +230,7 @@
     "requires": ["reduce_core_emlynoregan_com", "sum_core_emlynoregan_com"]
   },
   {
-    "name": "zip_core_emlynoregan_com",
+    "name": "zipprev_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
       "&": "if",
@@ -575,5 +575,75 @@
       }
     },
     "requires": ["hasitems_core_emlynoregan_com"]
-  }
+  },
+  {
+    "name": "zip_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.reduce_core_emlynoregan_com",
+      "list": "#@.list",
+      "accum": [],
+      "t": {"'": {
+        "!": "#*.foldone_core_emlynoregan_com",
+        "lists": "#@.accum",
+        "list": "#@.item"
+      }}
+    },
+    "requires": [
+      "reduce_core_emlynoregan_com",
+      "foldone_core_emlynoregan_com"
+    ]
+  },
+  {
+    "name": "foldone_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.head_core_emlynoregan_com",
+      "list":
+      {
+        "!": "#*.reduce_core_emlynoregan_com",
+        "accum": [[], "#@.lists"],
+        "list": "#@.list",
+        "t": {"'": 
+          [
+            [
+              "&&",
+              "#@.accum[0]",
+              [
+                [
+                  "&&",
+                  {
+                    "&": "if",
+                    "cond": {"'": {
+                      "&": "len",
+                      "list": "#@.accum[1]"
+                    }},
+                    "true": {
+                      "!": "#*.head_core_emlynoregan_com", 
+                      "list": "#@.accum[1]"
+                    },
+                    "false": []
+                  },
+                  ["#@.item"]
+                ]
+              ]
+            ],
+            {"!": "#*.tail_core_emlynoregan_com", "list": "#@.accum[1]"}
+          ]
+        }
+      }
+    },
+    "requires": [
+      "reduce_core_emlynoregan_com",
+      "head_core_emlynoregan_com",
+      "tail_core_emlynoregan_com"
+    ]
+  },
+
+
+
+
+
 ]
