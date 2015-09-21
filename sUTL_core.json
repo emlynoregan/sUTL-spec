@@ -4,34 +4,20 @@
     "language": "sUTL0",
     "transform-t": 
     {
-      "&": "if",
-      "cond": "#@.list",
-      "true": {
-        "'": [
-          "&&",
-          {
-            "!": "#@.t",
-            "item": {
-              "!": "#*.head_core_emlynoregan_com",
-              "list": "#@.list"
-            }
-          },
-          {
-            "!": "#*.map_core_emlynoregan_com",
-            "list": {
-              "!": "#*.tail_core_emlynoregan_com",
-              "list": "#@.list"
-            },
-            "t": "#@.t"
-          }
-        ]
-      },
-      "false": {
-        "'": []
-      }
+      "!": "#*.reduce_core_emlynoregan_com",
+      "list": "#@.list",
+      "t": {"'": [
+        "&&",
+        "#@.accum",
+        [{
+          "!": {"''": "#@.t"},
+          "item": "#@.item"
+        }]
+      ]},
+      "accum": []
     },
     "requires": [
-      "map_core_emlynoregan_com", 
+      "reduce_core_emlynoregan_com", 
       "head_core_emlynoregan_com", 
       "tail_core_emlynoregan_com"
     ]
@@ -244,7 +230,7 @@
     "requires": ["reduce_core_emlynoregan_com", "sum_core_emlynoregan_com"]
   },
   {
-    "name": "zip_core_emlynoregan_com",
+    "name": "prevzip_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
       "&": "if",
@@ -293,7 +279,7 @@
     },
     "requires": [
       "hasitems_core_emlynoregan_com", 
-      "require_core_emlynoregan_com",
+      "reduce_core_emlynoregan_com",
       "head_core_emlynoregan_com", 
       "tail_core_emlynoregan_com",
       "zip_core_emlynoregan_com"
@@ -559,16 +545,100 @@
         }
       }},
       "true": {"'": {
-          "&": "if",
-          "cond": {
-            "&": "!=",
-            "a": "#@.list[0]",
-            "b": null
+        "&": "if",
+        "cond": {"'": {
+          "&": ">",
+          "a": {
+            "&": "len",
+            "list": "#@.list"
           },
+          "b": 0
+        }},
+        "true": {"'": {
+          "&": "if",
+          "cond": {"'": {
+            "!": "#*.hasitems_core_emlynoregan_com",
+            "list": {"''": "#@.list[0]"}
+          }},
           "true": true,
-          "false": false
+          "false": {"'": {
+            "!": "#*.hasitems_core_emlynoregan_com",
+            "list": {"''": "##@.list[1:]"}
+          }}
+        }},
+        "false": false
       }},
-      "false": false
-    }  
+      "false": {
+        "&": "!=",
+        "a": "#@.list",
+        "b": null
+      }
+    },
+    "requires": ["hasitems_core_emlynoregan_com"]
+  },
+  {
+    "name": "zip_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.reduce_core_emlynoregan_com",
+      "list": "#@.list",
+      "accum": [],
+      "t": {"'": {
+        "!": "#*.foldone_core_emlynoregan_com",
+        "lists": "#@.accum",
+        "list": "#@.item"
+      }}
+    },
+    "requires": [
+      "reduce_core_emlynoregan_com",
+      "foldone_core_emlynoregan_com"
+    ]
+  },
+  {
+    "name": "foldone_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.head_core_emlynoregan_com",
+      "list":
+      {
+        "!": "#*.reduce_core_emlynoregan_com",
+        "accum": [[], "#@.lists"],
+        "list": "#@.list",
+        "t": {"'": 
+          [
+            [
+              "&&",
+              "#@.accum[0]",
+              [
+                [
+                  "&&",
+                  {
+                    "&": "if",
+                    "cond": {"'": {
+                      "&": "len",
+                      "list": "#@.accum[1]"
+                    }},
+                    "true": {
+                      "!": "#*.head_core_emlynoregan_com", 
+                      "list": "#@.accum[1]"
+                    },
+                    "false": []
+                  },
+                  ["#@.item"]
+                ]
+              ]
+            ],
+            {"!": "#*.tail_core_emlynoregan_com", "list": "#@.accum[1]"}
+          ]
+        }
+      }
+    },
+    "requires": [
+      "reduce_core_emlynoregan_com",
+      "head_core_emlynoregan_com",
+      "tail_core_emlynoregan_com"
+    ]
   }
 ]
