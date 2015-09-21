@@ -89,5 +89,40 @@
     "requires": [
       "tests_tst"
     ]
+  },
+  {
+    "name": "equalitytests_coretests_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t":   
+    {
+      "!": "#*.tests_tst",
+      "tests": {"'": [
+        {
+          "name": "removekeys",
+          "test-t": 
+          {
+            "&": "=",
+            "a": {
+              "&": "type",
+              "value":
+              {
+                "!": {"'": "#@.x.x"},
+                "x": {
+                  "!": "#*.removekeys_core", 
+                  "map": {"x": "a string"}, 
+                  "keys": [
+                      "document"
+                  ]
+                }
+              }
+            },
+            "b": "string"
+          }
+        },
+      ]}
+    },
+    "requires": [
+      "tests_tst", "removekeys_core"
+    ]
   }
 ]
