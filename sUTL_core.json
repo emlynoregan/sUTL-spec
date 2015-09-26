@@ -640,5 +640,80 @@
       "head_core_emlynoregan_com",
       "tail_core_emlynoregan_com"
     ]
+  },
+  {
+    "name": "splitmap_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.map_core_emlynoregan_com",
+      "list": {"&": "keys", "map": "#@.map"},
+      "t": {"'": {
+        "&": "makemap",
+        "value": [
+          [
+            "#@.item", 
+            {
+              "!": "#*.mapget_core_emlynoregan_com", 
+              "map": {"''": "#@.map"},
+              "key": "#@.item"
+            }
+          ]
+        ]
+      }}
+    },
+    "requires": [
+      "map_core_emlynoregan_com",
+      "mapget_core_emlynoregan_com"
+    ]
+  },
+  {
+    "name": "removenovaluemaps_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.filter_core_emlynoregan_com",
+      "list": {"!": "#*.splitmap_core_emlynoregan_com", "map": "#@.map"},
+      "filter-t": {"'": 
+      {
+        "&": "!=",
+        "a": {
+          "!": "#*.head_core_emlynoregan_com",
+          "list": {
+            "&": "values", 
+            "map": "#@.item"
+          }
+        },
+        "b": null
+      }}
+    },
+    "requires": [
+      "filter_core_emlynoregan_com",
+      "splitmap_core_emlynoregan_com",
+      "head_core_emlynoregan_com"
+    ]
+  },
+  {
+    "name": "removenullattribs_core_emlynoregan_com",
+    "language": "sUTL0",
+    "transform-t": 
+    {
+      "!": "#*.reduce_core_emlynoregan_com",
+      "accum": {},
+      "list": {
+        "!": "#*.removenovaluemaps_core_emlynoregan_com",
+        "map": "#@.map"
+      },
+      "t": {"'": {
+        "!": "#*.addmaps_core_emlynoregan_com",
+        "map1": "#@.accum",
+        "map2": "#@.item"
+      }}
+    },
+    "requires": [
+      "removenovaluemaps_core_emlynoregan_com",
+      "reduce_core_emlynoregan_com",
+      "addmaps_core_emlynoregan_com"
+    ]
   }
 ]
