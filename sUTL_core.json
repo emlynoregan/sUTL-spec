@@ -82,41 +82,38 @@
     "name": "removenulls_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "^*.reduce_core_emlynoregan_com",
+      "&": "reduce",
       "list": "^@.list",
       "t": {
         "'": {
           "&": "if",
-          "cond": "^@.item",
-          "true": {
+          "cond": {"'": "^@.item"},
+          "true": {"'": {
             "&": "if",
-            "cond": "^@.accum",
-            "true": [
+            "cond": {"'": "^@.accum"},
+            "true": {"'": [
               "&&",
               "^@.accum",
               [
                 "^@.item"
               ]
-            ],
-            "false": [
+            ]},
+            "false": {"'": [
               "^@.item"
-            ]
-          },
-          "false": {
+            ]}
+          }},
+          "false": {"'": {
             "&": "if",
-            "cond": "^@.accum",
-            "true": [
+            "cond": {"'": "^@.accum"},
+            "true": {"'": [
               "&&",
               "^@.accum"
-            ],
+            ]},
             "false": []
-          }
+          }}
         }
       }
-    },
-    "requires": [
-      "reduce_core_emlynoregan_com"
-    ]
+    }
   },
   {
     "name": "count_core_emlynoregan_com",
