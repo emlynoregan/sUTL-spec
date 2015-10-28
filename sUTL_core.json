@@ -474,19 +474,18 @@
     "name": "zip_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.reduce_core_emlynoregan_com",
-      "list": "#@.list",
+      "&": "reduce",
+      "list": "^@.list",
       "accum": [],
       "t": {
         "'": {
-          "!": "#*.foldone_core_emlynoregan_com",
-          "lists": "#@.accum",
-          "list": "#@.item"
+          "!": "^*.foldone_core_emlynoregan_com",
+          "lists": "^@.accum",
+          "list": "^@.item"
         }
       }
     },
     "requires": [
-      "reduce_core_emlynoregan_com",
       "foldone_core_emlynoregan_com"
     ]
   },
@@ -494,19 +493,19 @@
     "name": "foldone_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.head_core_emlynoregan_com",
+      "!": "^*.head_core_emlynoregan_com",
       "list": {
-        "!": "#*.reduce_core_emlynoregan_com",
+        "&": "reduce",
         "accum": [
           [],
-          "#@.lists"
+          "^@.lists"
         ],
-        "list": "#@.list",
+        "list": "^@.list",
         "t": {
           "'": [
             [
               "&&",
-              "#@.accum[0]",
+              "^@.accum.0",
               [
                 [
                   "&&",
@@ -515,31 +514,30 @@
                     "cond": {
                       "'": {
                         "&": "len",
-                        "list": "#@.accum[1]"
+                        "list": "^@.accum.1"
                       }
                     },
                     "true": {
-                      "!": "#*.head_core_emlynoregan_com",
-                      "list": "#@.accum[1]"
+                      "!": "^*.head_core_emlynoregan_com",
+                      "list": "^@.accum.1"
                     },
                     "false": []
                   },
                   [
-                    "#@.item"
+                    "^@.item"
                   ]
                 ]
               ]
             ],
             {
-              "!": "#*.tail_core_emlynoregan_com",
-              "list": "#@.accum[1]"
+              "!": "^*.tail_core_emlynoregan_com",
+              "list": "^@.accum.1"
             }
           ]
         }
       }
     },
     "requires": [
-      "reduce_core_emlynoregan_com",
       "head_core_emlynoregan_com",
       "tail_core_emlynoregan_com"
     ]
