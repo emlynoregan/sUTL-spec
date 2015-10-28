@@ -15,7 +15,8 @@
               "!": {
                 "''": "^@.t"
               },
-              "item": "^@.item"
+              "item": "^@.item",
+              "parent": "^@.parent"
             }
           ]
         ]
