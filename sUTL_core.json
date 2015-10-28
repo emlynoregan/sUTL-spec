@@ -191,7 +191,7 @@
   {
     "name": "mapget_core_emlynoregan_com",
     "language": "sUTL0",
-    "transform-t": ["^@", "map", "key"]
+    "transform-t": ["^@", "map", ["^@", "key"]]
   },
   {
     "name": "keys2map_core_emlynoregan_com",
