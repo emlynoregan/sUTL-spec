@@ -480,7 +480,7 @@
       "t": {
         "'": {
           "!": "^*.foldone_core_emlynoregan_com",
-          "lists": "^@.accum",
+          "lists": "#@.accum",
           "list": "^@.item"
         }
       }
