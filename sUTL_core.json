@@ -36,15 +36,9 @@
           "&&",
           {
             "!": "^*.reverse_core_emlynoregan_com",
-            "list": {
-              "&": "tail",
-              "b": "^@.list"
-            }
+            "list": ["&tail", "^@.list"]
           },
-          {
-            "&": "head",
-            "b": "^@.list"
-          }
+          ["&head", "^@.list"]
         ]
       },
       "false": {
