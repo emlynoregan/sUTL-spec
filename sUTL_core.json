@@ -152,155 +152,33 @@
     ]
   },
   {
-    "name": "sum_core_emlynoregan_com",
-    "language": "sUTL0",
-    "transform-t": {
-      "&": "if",
-      "cond": {
-        "'": {
-          "&": "=",
-          "a": "list",
-          "b": {
-            "&": "type",
-            "value": "#@.obj"
-          }
-        }
-      },
-      "true": {
-        "'": {
-          "!": "#*.reduce_core_emlynoregan_com",
-          "list": "#@.obj",
-          "accum": 0,
-          "t": {
-            "'": {
-              "&": "+",
-              "a": {
-                "!": "#*.sum_core_emlynoregan_com",
-                "obj": "#@.item"
-              },
-              "b": "#@.accum"
-            }
-          }
-        }
-      },
-      "false": {
-        "'": {
-          "&": "if",
-          "cond": {
-            "'": {
-              "&": "=",
-              "a": "number",
-              "b": {
-                "&": "type",
-                "value": "#@.obj"
-              }
-            }
-          },
-          "true": {
-            "'": "#@.obj"
-          },
-          "false": 0
-        }
-      }
-    },
-    "requires": [
-      "reduce_core_emlynoregan_com",
-      "sum_core_emlynoregan_com"
-    ]
-  },
-  {
-    "name": "prevzip_core_emlynoregan_com",
-    "language": "sUTL0",
-    "transform-t": {
-      "&": "if",
-      "cond": {
-        "'": {
-          "!": "#*.hasitems_core_emlynoregan_com",
-          "list": "#@.list"
-        }
-      },
-      "true": {
-        "'": [
-          "&&",
-          [
-            {
-              "!": "#*.reduce_core_emlynoregan_com",
-              "list": "#@.list",
-              "accum": [],
-              "t": {
-                "'": [
-                  "&&",
-                  "#@.accum",
-                  [
-                    {
-                      "!": "#*.head_core_emlynoregan_com",
-                      "list": "#@.item"
-                    }
-                  ]
-                ]
-              }
-            }
-          ],
-          {
-            "!": "#*.zip_core_emlynoregan_com",
-            "list": {
-              "!": "#*.reduce_core_emlynoregan_com",
-              "list": "#@.list",
-              "accum": [],
-              "t": {
-                "'": [
-                  "&&",
-                  "#@.accum",
-                  [
-                    {
-                      "!": "#*.tail_core_emlynoregan_com",
-                      "list": "#@.item"
-                    }
-                  ]
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "false": []
-    },
-    "requires": [
-      "hasitems_core_emlynoregan_com",
-      "reduce_core_emlynoregan_com",
-      "head_core_emlynoregan_com",
-      "tail_core_emlynoregan_com",
-      "zip_core_emlynoregan_com"
-    ]
-  },
-  {
     "name": "addmaps_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
       "&": "makemap",
       "value": {
-        "!": "#*.zip_core_emlynoregan_com",
+        "!": "^*.zip_core_emlynoregan_com",
         "list": [
           [
             "&&",
             {
               "&": "keys",
-              "map": "#@.map1"
+              "map": "^@.map1"
             },
             {
               "&": "keys",
-              "map": "#@.map2"
+              "map": "^@.map2"
             }
           ],
           [
             "&&",
             {
               "&": "values",
-              "map": "#@.map1"
+              "map": "^@.map1"
             },
             {
               "&": "values",
-              "map": "#@.map2"
+              "map": "^@.map2"
             }
           ]
         ]
@@ -313,26 +191,7 @@
   {
     "name": "mapget_core_emlynoregan_com",
     "language": "sUTL0",
-    "transform-t": {
-      "!": "#*.head_core_emlynoregan_com",
-      "list": {
-        "&": "path",
-        "path": {
-          "&": "+",
-          "a": {
-            "'": "@.map"
-          },
-          "b": {
-            "&": "+",
-            "a": ".",
-            "b": "#@.key"
-          }
-        }
-      }
-    },
-    "requires": [
-      "head_core_emlynoregan_com"
-    ]
+    "transform-t": ["^@", "map", "key"]
   },
   {
     "name": "keys2map_core_emlynoregan_com",
