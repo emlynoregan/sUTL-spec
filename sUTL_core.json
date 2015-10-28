@@ -62,7 +62,7 @@
   {
     "name": "tail_core_emlynoregan_com",
     "language": "sUTL0",
-    "transform-t": "##@.list[1:]"
+    "transform-t": ["&tail", "^@.list"]
   },
   {
     "name": "front_core_emlynoregan_com",
@@ -74,40 +74,40 @@
     "language": "sUTL0",
     "transform-t": [
       "&&",
-      "#@.a",
-      "#@.b"
+      "^@.a",
+      "^@.b"
     ]
   },
   {
     "name": "removenulls_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.reduce_core_emlynoregan_com",
-      "list": "#@.list",
+      "!": "^*.reduce_core_emlynoregan_com",
+      "list": "^@.list",
       "t": {
         "'": {
           "&": "if",
-          "cond": "#@.item",
+          "cond": "^@.item",
           "true": {
             "&": "if",
-            "cond": "#@.accum",
+            "cond": "^@.accum",
             "true": [
               "&&",
-              "#@.accum",
+              "^@.accum",
               [
-                "#@.item"
+                "^@.item"
               ]
             ],
             "false": [
-              "#@.item"
+              "^@.item"
             ]
           },
           "false": {
             "&": "if",
-            "cond": "#@.accum",
+            "cond": "^@.accum",
             "true": [
               "&&",
-              "#@.accum"
+              "^@.accum"
             ],
             "false": []
           }
@@ -129,23 +129,23 @@
           "a": "list",
           "b": {
             "&": "type",
-            "value": "#@.obj"
+            "value": "^@.obj"
           }
         }
       },
       "true": {
         "'": {
-          "!": "#*.reduce_core_emlynoregan_com",
-          "list": "#@.obj",
+          "!": "^*.reduce_core_emlynoregan_com",
+          "list": "^@.obj",
           "accum": 0,
           "t": {
             "'": {
               "&": "+",
               "a": {
-                "!": "#*.count_core_emlynoregan_com",
-                "obj": "#@.item"
+                "!": "^*.count_core_emlynoregan_com",
+                "obj": "^@.item"
               },
-              "b": "#@.accum"
+              "b": "^@.accum"
             }
           }
         }
