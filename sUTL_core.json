@@ -120,7 +120,7 @@
     "language": "sUTL0",
     "transform-t": {
       "&": "if",
-      "cond": {
+      "cond": {"'": {
         "'": {
           "&": "=",
           "a": "list",
@@ -129,10 +129,10 @@
             "value": "^@.obj"
           }
         }
-      },
+      }},
       "true": {
         "'": {
-          "!": "^*.reduce_core_emlynoregan_com",
+          "&": "reduce",
           "list": "^@.obj",
           "accum": 0,
           "t": {
@@ -147,12 +147,9 @@
           }
         }
       },
-      "false": {
-        "'": 1
-      }
+      "false": 1
     },
     "requires": [
-      "reduce_core_emlynoregan_com",
       "count_core_emlynoregan_com"
     ]
   },
