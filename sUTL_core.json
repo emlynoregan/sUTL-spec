@@ -5,7 +5,7 @@
     "transform-t": {
       "&": "reduce",
       "list": "^@.list",
-      "parent": "^@",
+      "parent": "^@.parent",
       "t": {
         "'": [
           "&&",
@@ -15,8 +15,7 @@
               "!": {
                 "''": "^@.t"
               },
-              "item": "^@.item",
-              "parent": "^@.parent"
+              "item": "^@.item"
             }
           ]
         ]
