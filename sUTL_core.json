@@ -514,12 +514,12 @@
                     "cond": {
                       "'": {
                         "&": "len",
-                        "list": "^@.accum.1"
+                        "list": "#@.accum.1"
                       }
                     },
                     "true": {
                       "!": "^*.head_core_emlynoregan_com",
-                      "list": "^@.accum.1"
+                      "list": "#@.accum.1"
                     },
                     "false": []
                   },
@@ -531,7 +531,7 @@
             ],
             {
               "!": "^*.tail_core_emlynoregan_com",
-              "list": "^@.accum.1"
+              "list": "#@.accum.1"
             }
           ]
         }
