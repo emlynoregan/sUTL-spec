@@ -199,12 +199,12 @@
     "transform-t": {
       "&": "makemap",
       "value": {
-        "!": "#*.map_core_emlynoregan_com",
-        "list": "#@.list",
+        "!": "^*.map_core_emlynoregan_com",
+        "list": "^@.list",
         "t": {
           "'": [
             [
-              "#@.item",
+              "^@.item",
               true
             ]
           ]
@@ -219,45 +219,42 @@
     "name": "filter_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.reduce_core_emlynoregan_com",
-      "list": "#@.list",
+      "&": "reduce",
+      "list": "^@.list",
       "accum": [],
       "t": {
         "'": [
           "&&",
-          "#@.accum",
+          "^@.accum",
           {
             "&": "if",
             "cond": {
               "'": {
-                "''": "#@.filter-t"
+                "''": "^@.filter-t"
               }
             },
             "true": [
-              "#@.item"
+              "^@.item"
             ],
             "false": []
           }
         ]
       }
-    },
-    "requires": [
-      "reduce_core_emlynoregan_com"
-    ]
+    }
   },
   {
     "name": "tests_tst_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.removenulls_core_emlynoregan_com",
+      "!": "^*.removenulls_core_emlynoregan_com",
       "list": {
-        "!": "#*.map_core_emlynoregan_com",
-        "list": "#@.tests",
+        "!": "^*.map_core_emlynoregan_com",
+        "list": "^@.tests",
         "t": {
           "'": {
-            "!": "#*.test_tst_emlynoregan_com",
-            "test-t": "#@.item.test-t",
-            "name": "#@.item.name"
+            "!": "^*.test_tst_emlynoregan_com",
+            "test-t": "^@.item.test-t",
+            "name": "^@.item.name"
           }
         }
       }
@@ -273,9 +270,9 @@
     "language": "sUTL0",
     "transform-t": {
       "&": "if",
-      "cond": "#@.test-t",
+      "cond": "^@.test-t",
       "true": null,
-      "false": "#@.name"
+      "false": "^@.name"
     }
   },
   {
@@ -286,7 +283,7 @@
       "cond": {
         "'": {
           "&": "=",
-          "a": "#@.test-t",
+          "a": "^@.test-t",
           "b": true
         }
       },
@@ -298,16 +295,16 @@
     "name": "isinlist_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.hasitems_core_emlynoregan_com",
+      "!": "^*.hasitems_core_emlynoregan_com",
       "list": {
-        "!": "#*.filter_core_emlynoregan_com",
-        "list": "#@.list",
+        "!": "^*.filter_core_emlynoregan_com",
+        "list": "^@.list",
         "filter-t": {
           "'": {
             "&": "=",
-            "a": "#@.item",
+            "a": "^@.item",
             "b": {
-              "''": "#@.item"
+              "''": "^@.item"
             }
           }
         }
@@ -324,35 +321,35 @@
     "transform-t": {
       "&": "makemap",
       "value": {
-        "!": "#*.zip_core_emlynoregan_com",
+        "!": "^*.zip_core_emlynoregan_com",
         "list": [
           {
-            "!": "#*.subtractarrs_core_emlynoregan_com",
+            "!": "^*.subtractarrs_core_emlynoregan_com",
             "arr1": {
               "&": "keys",
-              "map": "#@.map"
+              "map": "^@.map"
             },
-            "arr2": "#@.keys"
+            "arr2": "^@.keys"
           },
           {
-            "!": "#*.map_core_emlynoregan_com",
+            "!": "^*.map_core_emlynoregan_com",
             "list": {
-              "!": "#*.subtractarrs_core_emlynoregan_com",
+              "!": "^*.subtractarrs_core_emlynoregan_com",
               "arr1": {
                 "&": "keys",
-                "map": "#@.map"
+                "map": "^@.map"
               },
-              "arr2": "#@.keys"
+              "arr2": "^@.keys"
             },
             "t": {
               "'": {
-                "!": "#*.mapget_core_emlynoregan_com",
+                "!": "^*.mapget_core_emlynoregan_com",
                 "map": {
                   ":": {
-                    "''": "#@.map"
+                    "''": "^@.map"
                   }
                 },
-                "key": "#@.item"
+                "key": "^@.item"
               }
             }
           }
@@ -370,17 +367,17 @@
     "name": "subtractarrs_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.filter_core_emlynoregan_com",
-      "list": "#@.arr1",
+      "!": "^*.filter_core_emlynoregan_com",
+      "list": "^@.arr1",
       "filter-t": {
         "'": {
           "&": "!",
           "a": {
-            "!": "#*.isinlist_core_emlynoregan_com",
+            "!": "^*.isinlist_core_emlynoregan_com",
             "list": {
-              "''": "#@.arr2"
+              "''": "^@.arr2"
             },
-            "item": "#@.item"
+            "item": "^@.item"
           }
         }
       }
@@ -394,12 +391,12 @@
     "name": "pipeline_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.reduce_core_emlynoregan_com",
-      "list": "#@.list-t",
+      "&": "reduce",
+      "list": "^@.list-t",
       "t": {
         "'": {
-          "!": "#@.item",
-          "p": "#@.accum"
+          "!": "^@.item",
+          "p": "^@.accum"
         }
       }
     },
@@ -418,7 +415,7 @@
           "a": "list",
           "b": {
             "&": "type",
-            "value": "#@.list"
+            "value": "^@.list"
           }
         }
       },
@@ -430,7 +427,7 @@
               "&": ">",
               "a": {
                 "&": "len",
-                "list": "#@.list"
+                "list": "^@.list"
               },
               "b": 0
             }
@@ -440,18 +437,18 @@
               "&": "if",
               "cond": {
                 "'": {
-                  "!": "#*.hasitems_core_emlynoregan_com",
+                  "!": "^*.hasitems_core_emlynoregan_com",
                   "list": {
-                    "''": "#@.list[0]"
+                    "''": {"&": "head", "b": "^@.list"}
                   }
                 }
               },
               "true": true,
               "false": {
                 "'": {
-                  "!": "#*.hasitems_core_emlynoregan_com",
+                  "!": "^*.hasitems_core_emlynoregan_com",
                   "list": {
-                    "''": "##@.list[1:]"
+                    "''": {"&": "tail", "b": "^@.list"}
                   }
                 }
               }
@@ -462,7 +459,7 @@
       },
       "false": {
         "&": "!=",
-        "a": "#@.list",
+        "a": "^@.list",
         "b": null
       }
     },
@@ -480,7 +477,7 @@
       "t": {
         "'": {
           "!": "^*.foldone_core_emlynoregan_com",
-          "lists": "#@.accum",
+          "lists": "^@.accum",
           "list": "^@.item"
         }
       }
@@ -505,7 +502,7 @@
           "'": [
             [
               "&&",
-              "#@.accum.0",
+              "^@.accum.0",
               [
                 [
                   "&&",
@@ -514,12 +511,12 @@
                     "cond": {
                       "'": {
                         "&": "len",
-                        "list": "#@.accum.1"
+                        "list": "^@.accum.1"
                       }
                     },
                     "true": {
                       "!": "^*.head_core_emlynoregan_com",
-                      "list": "#@.accum.1"
+                      "list": "^@.accum.1"
                     },
                     "false": []
                   },
@@ -531,7 +528,7 @@
             ],
             {
               "!": "^*.tail_core_emlynoregan_com",
-              "list": "#@.accum.1"
+              "list": "^@.accum.1"
             }
           ]
         }
@@ -546,23 +543,23 @@
     "name": "splitmap_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.map_core_emlynoregan_com",
+      "!": "^*.map_core_emlynoregan_com",
       "list": {
         "&": "keys",
-        "map": "#@.map"
+        "map": "^@.map"
       },
       "t": {
         "'": {
           "&": "makemap",
           "value": [
             [
-              "#@.item",
+              "^@.item",
               {
-                "!": "#*.mapget_core_emlynoregan_com",
+                "!": "^*.mapget_core_emlynoregan_com",
                 "map": {
-                  "''": "#@.map"
+                  "''": "^@.map"
                 },
-                "key": "#@.item"
+                "key": "^@.item"
               }
             ]
           ]
@@ -578,19 +575,19 @@
     "name": "removenovaluemaps_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.filter_core_emlynoregan_com",
+      "!": "^*.filter_core_emlynoregan_com",
       "list": {
-        "!": "#*.splitmap_core_emlynoregan_com",
-        "map": "#@.map"
+        "!": "^*.splitmap_core_emlynoregan_com",
+        "map": "^@.map"
       },
       "filter-t": {
         "'": {
           "&": "!=",
           "a": {
-            "!": "#*.head_core_emlynoregan_com",
+            "!": "^*.head_core_emlynoregan_com",
             "list": {
               "&": "values",
-              "map": "#@.item"
+              "map": "^@.item"
             }
           },
           "b": null
@@ -607,17 +604,17 @@
     "name": "removenullattribs_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
-      "!": "#*.reduce_core_emlynoregan_com",
+      "&": "reduce",
       "accum": {},
       "list": {
-        "!": "#*.removenovaluemaps_core_emlynoregan_com",
-        "map": "#@.map"
+        "!": "^*.removenovaluemaps_core_emlynoregan_com",
+        "map": "^@.map"
       },
       "t": {
         "'": {
-          "!": "#*.addmaps_core_emlynoregan_com",
-          "map1": "#@.accum",
-          "map2": "#@.item"
+          "!": "^*.addmaps_core_emlynoregan_com",
+          "map1": "^@.accum",
+          "map2": "^@.item"
         }
       }
     },
@@ -635,10 +632,10 @@
       "map": {
         "&": "makemap",
         "value": {
-          "!": "#*.zip_core_emlynoregan_com",
+          "!": "^*.zip_core_emlynoregan_com",
           "list": [
-            "#@.list",
-            "#@.list"
+            "^@.list",
+            "^@.list"
           ]
         }
       }
