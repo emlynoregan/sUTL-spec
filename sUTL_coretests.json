@@ -4,7 +4,7 @@
     "language": "sUTL0",
     "transform-t":   
     {
-      "!": "#*.tests_tst",
+      "!": "^*.tests_tst",
       "tests": {"'": [
         {
           "name": "true",
@@ -95,7 +95,7 @@
     "language": "sUTL0",
     "transform-t":   
     {
-      "!": "#*.tests_tst",
+      "!": "^*.tests_tst",
       "tests": {"'": [
         {
           "name": "removekeys",
@@ -106,9 +106,9 @@
               "&": "type",
               "value":
               {
-                "!": {"'": "#@.x.x"},
+                "!": {"'": "^@.x.x"},
                 "x": {
-                  "!": "#*.removekeys_core", 
+                  "!": "^*.removekeys_core", 
                   "map": {"x": "a string"}, 
                   "keys": [
                       "document"
