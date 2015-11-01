@@ -704,5 +704,28 @@
     "requires": [
       "filter_core_emlynoregan_com"
     ]
+  },
+  {
+    "name": "idlisttomap_core_emlynoregan_com",
+    "transform-t":  {
+        "&": "makemap",
+        "value":
+        {
+          "!": "^*.map_core_emlynoregan_com",
+          "list": "^@.list",
+          "t": {"'": 
+            [
+              {"!": [
+                "&&",
+                {"'": "^%"},
+                ["^@.item"],
+                "^@.keypath"
+              ]},
+              "^@.item"
+            ]
+          }
+        }
+    },
+    "requires": ["map_core_emlynoregan_com"]
   }
 ]
