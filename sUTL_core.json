@@ -634,4 +634,75 @@
       "zip_core_emlynoregan_com"
     ]
   }
+  {
+    "language": "sUTL0",
+    "name": "quicksort_core_emlynoregan_com",
+    "transform-t": {
+      "&": "if",
+      "cond": {"'": "^@.list"},
+      "true": {"'": [
+        "&&",
+        {
+          "!": "^*.quicksort_core_emlynoregan_com",
+          "list": {
+            "!": "^*.qsfilter_core_emlynoregan_com",
+            "list": "^@.list",
+            "left": true,
+            "sortkey": "^@.sortkey"
+          }        
+        },
+        [{"&": "head", "b": "^@.list"}],
+        {
+          "!": "^*.quicksort_core_emlynoregan_com",
+          "list": {
+            "!": "^*.qsfilter_core_emlynoregan_com",
+            "list": "^@.list",
+            "left": false,
+            "sortkey": "^@.sortkey"
+          }        
+        }
+      ]
+      },
+      "false": []
+    },
+    "requires": [
+      "quicksort_core_emlynoregan_com", "qsfilter_core_emlynoregan_com"
+    ]
+  },
+  {
+    "language": "sUTL0",
+    "name": "qsfilter_core_emlynoregan_com",
+    "transform-t": {
+      "!": "^*.filter_core_emlynoregan_com",
+      "list": {"&": "tail", "b": "^@.list"},
+      "head": {"&": "head", "b": "^@.list"},
+      "filter-t": {"'":
+        {"!":  
+          [
+            {
+              "&": "if",
+              "cond": {"'": "^@.left"},
+              "true": {"'": {"'": "&<"}},
+              "false": {"'": {"'": "&>="}}
+            },
+            {"!": [
+              "&&",
+              {"'": "^%"},
+              ["^@.item"],
+              "^@.keypath"
+            ]},
+            {"!": [
+              "&&",
+              {"'": "^%"},
+              ["^@.head"],
+              "^@.keypath"
+            ]}
+          ]
+        }
+      }
+    },
+    "requires": [
+      "filter_core_emlynoregan_com"
+    ]
+  }
 ]
