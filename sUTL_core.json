@@ -633,7 +633,7 @@
     "requires": [
       "zip_core_emlynoregan_com"
     ]
-  }
+  },
   {
     "language": "sUTL0",
     "name": "quicksort_core_emlynoregan_com",
