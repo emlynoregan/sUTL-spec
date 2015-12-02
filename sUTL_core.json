@@ -800,5 +800,89 @@
       },
       "result"
     ]
+  },
+  {
+    "name": "slice_core_emlynoregan_com",
+    "transform-t": 
+    {
+      "!": {"'": {
+        "!": {"'": 
+        [
+          "^%",
+          {
+            "&": "reduce",
+            "list": "^@.list",
+            "accum": {
+              "index": 0,
+              "result": []
+            },
+            "t": {"'": {
+              "&": "if",
+              "cond": {"'": 
+                [
+                  "&&&",
+                  [
+                    "&>=",
+                    "^@.accum.index",
+                    "^@.start"
+                  ],
+                  [
+                    "&<",
+                    "^@.accum.index",
+                    "^@.stop"
+                  ]
+                ]
+              },
+              "true": {"'": {
+                "index": ["&+", "^@.accum.index", 1],
+                "result": [
+                  "&&",
+                  "^@.accum.result",
+                  "^@.item"
+                ]
+              }},
+              "false": {"'": {
+                "index": ["&+", "^@.accum.index", 1],
+                "result": "^@.accum.result"
+              }}
+            }}
+          },
+          "result"
+        ]},
+        "start": {
+          "!": "^@.fixarg",
+          "arg": "^@.start",
+          "defaultarg": 0
+        },
+        "stop": {
+          "!": "^@.fixarg",
+          "arg": "^@.stop",
+          "defaultarg": {
+            "&": "len",
+            "list": "^@.list"
+          }
+        }
+      }},
+      "fixarg": {"'": {
+        "&": "if",
+        "cond": {"'": "^@.arg"},
+        "true": {"'": {
+          "&": "if",
+          "cond": {"'": ["&<", "^@.arg", 0]},
+          "true": {"'":
+            [
+              "&+", 
+              {
+                "&": "len",
+                "list": "^@.list"
+              },
+              "^@.arg"
+            ]
+          },
+          "false": {"'": "^@.arg"}
+        }},
+        "false": "^@.defaultarg"
+      }}
+    }
   }
 ]
