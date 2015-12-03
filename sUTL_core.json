@@ -952,14 +952,6 @@
                 "list"
               ]
             },
-            "truex": {
-              "found": true,
-              "result": "^@.item.1"
-            },
-            "falsex": {
-              "found": true,
-              "result": "^@.item.1"
-            },
             "true": {"'": {
               "&": "if",
               "cond": {"'": {
