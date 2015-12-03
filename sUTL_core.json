@@ -884,5 +884,24 @@
         "false": "^@.defaultarg"
       }}
     }
+  },
+  {
+    "language": "sUTL0",
+    "name": "coalesce_core_emlynoregan_com",
+    "transform-t": {
+      "&": "reduce",
+      "list": "^@.list",
+      "accum": null,
+      "t": {"'": {
+        "&": "if",
+        "cond": {"'": [
+          "&!=",
+          "^@.accum",
+          null
+        ]},
+        "true": {"'": "^@.accum"},
+        "false": {"'": "^@.item"}
+      }}
+    }
   }
 ]
