@@ -994,5 +994,63 @@
       "result"
     ],
     "requires": ["isinlist"]
+  },
+  {
+    "name": "when_core_emlynoregan_com",
+    "transform-t": 
+    [
+      "^%",
+      {
+        "&": "reduce",
+        "list": "^@.cases",
+        "accum": {
+          "found": false,
+          "result": null
+        },
+        "t": {"'": {
+          "&": "if",
+          "cond": {"'": "^@.accum.result"},
+          "true": {"'": "^@.accum"},
+          "false": {"'": {
+            "&": "if",
+            "cond": {"'": 
+              [
+                "&&&",
+                [
+                  "&=",
+                  {
+                    "&": "type",
+                    "value": "^@.item"
+                  },
+                  "list"
+                ],
+                [
+                  "&=",
+                  {
+                    "&": "len",
+                    "list": "^@.item"
+                  },
+                  2
+                ]
+              ]
+            },
+            "true": {"'": {
+              "&": "if",
+              "cond": {"'": {"!": {"!": "^@.item.0"}}},  
+              "true": {"'": {
+                "found": true,
+                "result": {"!": "^@.item.1"}
+              }},
+              "false": {"'": "^@.accum"}
+            }},
+            "false": {"'": {
+              "found": true,
+              "result": {"!": "^@.item"} 
+            }}
+          }}
+        }}
+      },
+      "result"
+    ]
   }
 ]
