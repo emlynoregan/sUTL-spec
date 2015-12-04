@@ -73,7 +73,7 @@
     "transform-t": {
       "&": "reduce",
       "list": "^@.list",
-      "accum": []
+      "accum": [],
       "t": {
         "'": {
           "&": "if",
