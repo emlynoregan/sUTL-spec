@@ -73,33 +73,17 @@
     "transform-t": {
       "&": "reduce",
       "list": "^@.list",
+      "accum": []
       "t": {
         "'": {
           "&": "if",
           "cond": {"'": ["&!=", "^@.item", null]},
           "true": {"'": {
-            "&": "if",
-            "cond": {"'": "^@.accum"},
-            "true": {"'": [
-              "&&",
-              "^@.accum",
-              [
-                "^@.item"
-              ]
-            ]},
-            "false": {"'": [
-              "^@.item"
-            ]}
+            "&&",
+            "^@.accum",
+            "^@.item"
           }},
-          "false": {"'": {
-            "&": "if",
-            "cond": {"'": "^@.accum"},
-            "true": {"'": [
-              "&&",
-              "^@.accum"
-            ]},
-            "false": []
-          }}
+          "false": {"'": "^@.accum"}
         }
       }
     }
