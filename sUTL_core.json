@@ -5,7 +5,7 @@
     "transform-t": {
       "&": "reduce",
       "list": "^@.list",
-      "parent": "^@.parent",
+      "accum": [],
       "t": {
         "'": [
           "&&",
