@@ -5,24 +5,20 @@
     "transform-t": {
       "&": "reduce",
       "list": "^@.list",
+      "map-t": "^@.t",
       "t": {
         "'": [
           "&&",
           "^@.accum",
           [
             {
-              "!": {
-                "''": "^@.t"
-              },
-              "item": "^@.item"
+              "!": "^@.map-t"
             }
           ]
         ]
       },
       "accum": []
-    },
-    "requires": [
-    ]
+    }
   },
   {
     "name": "reverse_core_emlynoregan_com",
