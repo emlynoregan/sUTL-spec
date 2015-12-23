@@ -1069,5 +1069,153 @@
       ]
     ],
     "requires": ["isdict_core", "islist_core"]
+  },
+  {
+    "name": "newdiff_core_emlynoregan_com",
+    "transform-t": {
+      "!": {":": {
+        "!": {":": {
+          "&": "if",
+          "cond": {":": {"!": "^@.keepvalue"}},
+          "true": {":": "^@.value"}
+        }},
+        "value": {
+          "&": "switch",
+          "value": {"&": "type", "value": "^@.new"},
+          "cases": [
+            [
+              "map", {
+                "&": "if",
+                "cond": {"'": {"&": "isdict", "item": "^@.old"}}, 
+                "true": {"'": {
+                  "&": "makemap",
+                  "value": {
+                    "&": "map_core",
+                    "list": {
+                      "&": "keys",
+                      "map": "^@.new"
+                    },
+                    "t": {":": {
+                      "&": "if",
+                      "cond": {":": {
+                        "&": "isinlist",
+                        "list": {"&": "keys", "map": "^@.old"}
+                      }},
+                      "true": {"'": {
+                        "&": "if",
+                        "cond": {":": [
+                          "&=",
+                          ["^%", "^@.new", "^@.item"],
+                          ["^%", "^@.old", "^@.item"]
+                        ]},
+                        "true": null,
+                        "false": {":": {
+                          "!": {":": {
+                            "&": "if",
+                            "cond": {":": {
+                              "!": "^@.keepvalue"
+                            }},
+                            "true": {":":
+                              [
+                                "^@.item",
+                                "^@.value"
+                              ]
+                            }
+                          }},
+                          "value": {
+                            "&": "newdiff_core",
+                            "old": ["^%", "^@.old", "^@.item"],
+                            "new": ["^%", "^@.new", "^@.item"]
+                          }
+                        }}
+                      }},
+                      "false": {":": [
+                        "^@.item",
+                        ["^%", "^@.new", "^@.item"]
+                      ]}
+                    }}
+                  }
+                }},
+                "false": {":": "^@.new"}
+              }
+            ],
+            [
+              "list", {
+                "!": {":": {
+                  "&": "if",
+                  "cond": {":": {"&": "hasitems"}},
+                  "true": {":": "^@.list"},
+                  "false": []
+                }},
+                "list": {            
+                  "&": "if",
+                  "cond": {"'": {"&": "islist", "item": "^@.old"}}, 
+                  "true": {"'": [
+                    "^%",
+                    {
+                      "&": "reduce",
+                      "list": "^@.new",
+                      "accum": {
+                        "index": 0,
+                        "result": []
+                      },
+                      "t": {":": {
+                        "index": ["&+", "^@.accum.index", 1],
+                        "result": 
+                        [
+                          "&&",
+                          "^@.accum.result",
+                          [
+                            {
+                              "!": {":": {
+                                "&": "if",
+                                "cond": {":": {"!": "^@.keepvalue"}},
+                                "true": {":": "^@.value"}
+                              }},
+                              "value": 
+                              {
+                                "&": "newdiff_core",
+                                "old": ["^%", "^@.old", "^@.accum.index"],
+                                "new": "^@.item"
+                              }
+                            }
+                          ]
+                        ]
+                      }}
+                    },
+                    "result"
+                  ]},
+                  "false": {":": "^@.new"}
+                }
+              }
+            ],
+            {
+              "&": "if",
+              "cond": {":": 
+                [
+                  "&=",
+                  "^@.new",
+                  "^@.old"
+                ]
+              },
+              "false": {":": "^@.new"}
+            }
+          ]
+        }
+      }},
+      "keepvalue": {":": [
+        "&||",
+        "^@.value",
+        [
+          "&!",
+          {
+            "&": "isinlist",
+            "item": {"&": "type"},
+            "list": ["null", "map", "list"]
+          }
+        ]
+      ]}
+    },
+    "requires": ["hasitems", "isdict", "islist", "switch", "map_core", "isinlist", "newdiff_core"]
   }
 ]
