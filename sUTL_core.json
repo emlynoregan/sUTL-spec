@@ -897,7 +897,7 @@
         },
         "t": {"'": {
           "&": "if",
-          "cond": {"'": "^@.accum.result"},
+          "cond": {"'": "^@.accum.found"},
           "true": {"'": "^@.accum"},
           "false": {"'": {
             "&": "if",
@@ -988,7 +988,7 @@
         },
         "t": {"'": {
           "&": "if",
-          "cond": {"'": "^@.accum.result"},
+          "cond": {"'": "^@.accum.found"},
           "true": {"'": "^@.accum"},
           "false": {"'": {
             "&": "if",
