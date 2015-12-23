@@ -1031,5 +1031,43 @@
       },
       "result"
     ]
+  },
+  {
+    "name": "isdict_core_emlynoregan_com",
+    "transform-t": [
+      "&=",
+      {
+        "&": "type",
+        "value": "^@.item"
+      },
+      "map" 
+    ]
+  },
+  {
+    "name": "islist_core_emlynoregan_com",
+    "transform-t": [
+      "&=",
+      {
+        "&": "type",
+        "value": "^@.item"
+      },
+      "list" 
+    ]
+  },
+  {
+    "name": "issimple_core_emlynoregan_com",
+    "transform-t": [
+      "&!",
+      [
+        "&||",
+        {
+          "&": "isdict_core"
+        },
+        {
+          "&": "islist_core"
+        }
+      ]
+    ],
+    "requires": ["isdict_core", "islist_core"]
   }
 ]
