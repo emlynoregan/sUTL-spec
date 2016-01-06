@@ -1255,8 +1255,7 @@
     "name": "declcombine_core_emlynoregan_com",
     "transform-t": {
       "transform-t": {
-        "&": "^@.combine",
-        "list": "&@.list.*.transform-t"
+        "&": "combine"
       },
       "requires": {
         "&": "keys",
@@ -1267,7 +1266,7 @@
             "!": 
             {
               "&": "reduce",
-              "list": "&@.*.requires",
+              "list": "&@.list.*.requires",
               "accum": {":": ["&&"]},
               "t": {":": 
                 [
