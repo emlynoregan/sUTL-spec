@@ -1220,20 +1220,20 @@
   },
   {
     "name": "combine_core_emlynoregan_com",
-	  "transform-t": {
-	    "&": "reduce",
-	    "list": "^@",
-	    "accum": null,
-	    "t": {":": {
-	      "&": "if",
-	      "cond": {":": "^@.accum"},
-	      "false": {":": "^@.item"},
+    "transform-t": {
+      "&": "reduce",
+      "list": "^@",
+      "accum": null,
+      "t": {":": {
+      	"&": "if",
+        "cond": {":": "^@.accum"},
+        "false": {":": "^@.item"},
         "true": {":": {
           "&": "makemap",
           "value": [["!!", "^@.item"], ["s", "^@.accum"]]
-	      }}
-	    }}
-	  },
-	  "requires": ["addmaps"]
-	}
+	}}
+      }}
+    },
+    "requires": ["addmaps"]
+  }
 ]
