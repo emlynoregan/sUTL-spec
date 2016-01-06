@@ -55,15 +55,6 @@
     "transform-t": ["&tail", "^@.list"]
   },
   {
-    "name": "concat_core_emlynoregan_com",
-    "language": "sUTL0",
-    "transform-t": [
-      "&&",
-      "^@.a",
-      "^@.b"
-    ]
-  },
-  {
     "name": "removenulls_core_emlynoregan_com",
     "language": "sUTL0",
     "transform-t": {
@@ -1259,5 +1250,36 @@
         }
       }
     }
+  },
+  {
+    "name": "combinedecls_core_emlynoregan_com",
+    "transform-t": {
+      "transform-t": {
+        "&": "combine"
+      },
+      "requires": {
+        "&": "keys",
+        "map": {
+          "&": "keys2map",
+          "list": 
+          {
+            "!": 
+            {
+              "&": "reduce",
+              "list": "&@.*.requires",
+              "accum": {":": ["&&"]},
+              "t": {":": 
+                [
+                  "&&",
+                  "^@.accum",
+                  "^@.item"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "requires": ["combine", "keys2map"]
   }
 ]
