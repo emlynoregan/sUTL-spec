@@ -1224,16 +1224,43 @@
       "&": "reduce",
       "list": "^@",
       "accum": null,
-      "t": {":": {
-      	"&": "if",
-        "cond": {":": "^@.accum"},
-        "false": {":": "^@.item"},
-        "true": {":": {
-          "&": "makemap",
-          "value": [["!!", "^@.item"], ["s", "^@.accum"]]
-	}}
-      }}
+      "t": {
+        ":": {
+          "&": "if",
+          "cond": {
+            ":": "^@.accum"
+          },
+          "false": {
+            ":": "^@.item"
+          },
+          "true": {
+            ":": {
+              "&": "makemap",
+              "value": [
+                [
+                  "!!",
+                  {
+                    "&": "makemap",
+                    "value": [
+                      [
+                        ":",
+                        "^@.item"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "s",
+                  "^@.accum"
+                ]
+              ]
+            }
+          }
+        }
+      }
     },
-    "requires": ["addmaps"]
+    "requires": [
+      "addmaps"
+    ]
   }
 ]
