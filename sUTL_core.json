@@ -1252,7 +1252,7 @@
     }
   },
   {
-    "name": "combinedecls_core_emlynoregan_com",
+    "name": "declcombine_core_emlynoregan_com",
     "transform-t": {
       "transform-t": {
         "&": "combine"
