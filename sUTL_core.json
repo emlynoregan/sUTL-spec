@@ -1210,6 +1210,143 @@
     "requires": ["hasitems", "isdict", "islist", "switch", "map_core", "isinlist", "newdiff_core"]
   },
   {
+    "name": "applynewdiff_core_emlynoregan_com",
+    "transform-t": {
+      "!": {":": {
+        "&": "when",
+        "cases": [
+          [
+            {":": [
+              "&=",
+              null,
+              "^@.diff"
+            ]},
+            {":": "^@.old"}
+          ],
+          [
+            {":": [
+              "&!=",
+              "^@.oldtype",
+              "^@.difftype"
+            ]},
+            {":": "^@.diff"}
+          ],
+          [
+            {":": [
+              "&=",
+              "^@.difftype",
+              "map"
+            ]},
+            {":": {
+              "!": {":": {
+                "&": "makemap",
+                "value": {
+                  "&": "map_core",
+                  "list": "^@.keys",
+                  "t": {":": [
+                    "^@.item",
+                    {
+                      "&": "applynewdiff",
+                      "old": [
+                        "^@",
+                        "old",
+                        "^@.item"
+                      ],
+                      "diff": [
+                        "^@",
+                        "diff",
+                        "^@.item"
+                      ]
+                    }
+                  ]}
+                }
+              }},
+              "keys": {
+                "&": "removedupstrarr",
+                "list": [
+                  "&&",
+                  {
+                    "&": "keys",
+                    "map": "^@.old"
+                  },
+                  {
+                    "&": "keys",
+                    "map": "^@.diff"
+                  }
+                ]
+              }
+            }}
+          ],
+          [
+            {":": [
+              "&=",
+              "^@.difftype",
+              "list"
+            ]},
+            {":": {
+              "!": {":": 
+                [
+                  "^%",
+                  {
+                    "&": "reduce",
+                    "accum": {
+                      "index": 0,
+                      "result": []
+                    },
+                    "list": "^@.longestlist",
+                    "t": {":": { 
+                      "index": [
+                        "&+",
+                        "^@.accum.index",
+                        1
+                      ],
+                      "result":
+                      [
+                        "&&",
+                        "^@.accum.result",
+                        {
+                          "&": "applynewdiff",
+                          "old": [
+                            "^@",
+                            "old",
+                            "^@.accum.index"
+                          ],
+                          "diff": [
+                            "^@",
+                            "diff",
+                            "^@.accum.index"
+                          ]
+                        }
+                      ]
+                    }}
+                  },
+                  "result"
+                ]
+              },
+              "longestlist": {
+                "&": "longest",
+                "list": [
+                  "^@.old",
+                  "^@.diff"
+                ]
+              }
+            }}
+          ],
+          {":": "^@.diff"}
+        ]
+      }},
+      "oldtype": {
+        "&": "type",
+        "value": "^@.old"
+      },
+      "difftype": {
+        "&": "type",
+        "value": "^@.diff"
+      }
+    },
+    "requires": ["applynewdiff", "when", "removedupstrarr", "map_core", "longest"]
+  },
+  {
     "name": "combine_core_emlynoregan_com",
     "transform-t": {
       "&": "reduce",
