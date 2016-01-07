@@ -1282,5 +1282,29 @@
       }
     },
     "requires": ["combine", "keys2map"]
+  },
+  {
+    "name": "max_core_emlynoregan_com",
+    "transform-t": {
+      "&": "reduce",
+      "accum": 0,
+      "t": {":": {
+        "!": {":": {
+          "&": "if",
+          "cond": {":": [
+            "&>=",
+            "^@.accum",
+            "^@.itemlen"
+          ]},
+          "true": {":": "^@.accum"},
+          "false": {":": "^@.itemlen"}
+        }},
+        "itemlen": {
+          "&": "len",
+          "list": "^@.item"
+        }
+      }}
+    },
+    "requires": ["map_core"]
   }
 ]
