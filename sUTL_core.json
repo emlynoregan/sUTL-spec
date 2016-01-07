@@ -1326,5 +1326,30 @@
       }}
     },
     "requires": ["map_core"]
+  },
+  {
+    "name": "longest_core_emlynoregan_com",
+    "transform-t": {
+      "&": "reduce",
+      "accum": [],
+      "t": {":": 
+        {
+          "&": "if",
+          "cond": {":": [
+            "&>",
+            {
+              "&": "len",
+              "list": "^@.item"
+            },
+            {
+              "&": "len",
+              "list": "^@.accum"
+            }
+          ]},
+          "true": {"'": "^@.item"},
+          "false": {"'": "^@.accum"}
+        }
+      }
+    }
   }
 ]
