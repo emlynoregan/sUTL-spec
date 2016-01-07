@@ -1294,6 +1294,26 @@
           "cond": {":": [
             "&>=",
             "^@.accum",
+            "^@.item"
+          ]},
+          "true": {":": "^@.accum"},
+          "false": {":": "^@.item"}
+        }}
+      }}
+    },
+    "requires": ["map_core"]
+  },
+  {
+    "name": "lenmax_core_emlynoregan_com",
+    "transform-t": {
+      "&": "reduce",
+      "accum": 0,
+      "t": {":": {
+        "!": {":": {
+          "&": "if",
+          "cond": {":": [
+            "&>=",
+            "^@.accum",
             "^@.itemlen"
           ]},
           "true": {":": "^@.accum"},
