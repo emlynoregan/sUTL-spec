@@ -1488,5 +1488,103 @@
         }
       }
     }
+  },
+  {
+    "language": "sUTL0",
+    "name": "traverse_core_emlynoregan_com",
+    "transform-t": {
+      "!": {":": 
+      {
+        "&": "switch",
+        "value": {
+          "&": "type",
+          "value": "^@.source"
+        },
+        "cases": [
+          ["map", 
+            {
+              "&": "makemap",
+              "value":
+              {
+                "&": "reduce",
+                "list": {
+                  "&": "keys",
+                  "map": "^@.source"
+                },
+                "accum": [],
+                "t": {":": 
+                  {
+                    "!": {":": 
+                      [
+                        "&&",
+                        "^@.accum",
+                        [[
+                          "^@.item", 
+                          {
+                            "&": "traverse_core_emlynoregan_com",
+                            "source": "^@.transformedvalue"
+                          }
+                        ]]
+                      ]
+                    },
+                    "transformedvalue": {
+                      "!": "^@.traverse-t",
+                      "key": "^@.item",
+                      "value": ["^@", "source", "^@.item"]
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          ["list", 
+            [
+              "^%",
+              {
+                "&": "reduce",
+                "list": "^@.source",
+                "accum": {
+                  "index": 0,
+                  "result": []
+                },
+                "t": {":": 
+                {
+                  "index": ["&+", "^@.index", 1],
+                  "result":
+                  {
+                    "!": {":": 
+                      [
+                        "&&",
+                        "^@.accum.result",
+                        [{
+                          "&": "traverse_core_emlynoregan_com",
+                          "source": "^@.transformedvalue"
+                        }]
+                      ]
+                    },
+                    "transformedvalue": {
+                      "!": "^@.traverse-t",
+                      "value": ["^@", "source", "^@.item"]
+                    }
+                  }
+                }}
+              },
+              "result"
+            ]
+          ],
+          {
+            "!": "^@.traverse-t",
+            "value": "^@.source"
+          }
+        ]
+      }},
+      "traverse-t": {
+        "&": "coalesce",
+        "list": ["^@.traverse-t", "^@.t"]
+      }
+    },
+    "requires": [
+      "switch", "coalesce", "traverse_core_emlynoregan_com"
+    ]
   }
 ]
