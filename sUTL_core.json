@@ -1586,5 +1586,113 @@
     "requires": [
       "switch", "coalesce", "traverse_core_emlynoregan_com"
     ]
+  },
+  {
+    "language": "sUTL0",
+    "name": "filttrav_core_emlynoregan_com",
+    "transform-t": {
+      "!": {":": 
+      {
+        "&": "switch",
+        "value": {
+          "&": "type",
+          "value": "^@.source"
+        },
+        "cases": [
+          ["map", 
+            {
+              "&": "makemap",
+              "value":
+              {
+                "&": "reduce",
+                "list": {
+                  "&": "keys",
+                  "map": "^@.source"
+                },
+                "accum": [],
+                "t": {":": 
+                  {
+                    "!": {":": 
+                    {
+                      "&": "if",
+                      "cond": {":": "^@.keepvalue"},
+                      "true": {":": 
+                        [
+                          "&&",
+                          "^@.accum",
+                          [[
+                            "^@.item", 
+                            {
+                              "&": "filtertraverse_core_emlynoregan_com",
+                              "source": ["^@", "source", "^@.item"]
+                            }
+                          ]]
+                        ]
+                      },
+                      "false": {":": "^@.accum"}
+                    }},
+                    "keepvalue": {
+                      "!": "^@.filter-t",
+                      "key": "^@.item",
+                      "value": ["^@", "source", "^@.item"]
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          ["list", 
+            [
+              "^%",
+              {
+                "&": "reduce",
+                "list": "^@.source",
+                "accum": {
+                  "index": 0,
+                  "result": []
+                },
+                "t": {":": 
+                {
+                  "index": ["&+", "^@.index", 1],
+                  "result":
+                  {
+                    "!": {":": 
+                    {
+                      "&": "if",
+                      "cond": {":": "^@.keepvalue"},
+                      "true": {":": 
+                        [
+                          "&&",
+                          "^@.accum.result",
+                          {
+                            "&": "filtertraverse_core_emlynoregan_com",
+                            "source": "^@.item"
+                          }
+                        ]
+                      },
+                      "false": {":": "^@.accum.result"}
+                    }},
+                    "keepvalue": {
+                      "!": "^@.filter-t",
+                      "key": "^@.index",
+                      "value": "^@.item"
+                    }
+                  }
+                }}
+              },
+              "result"
+            ]
+          ],
+          "^@.source"
+        ]
+      }},
+      "filter-t": {
+        "&": "coalesce",
+        "list": ["^@.filter-t", "^@.t"]
+      }
+    },
+    "requires": [
+      "switch", "coalesce", "filtertraverse_core_emlynoregan_com"
+    ]
   }
 ]
