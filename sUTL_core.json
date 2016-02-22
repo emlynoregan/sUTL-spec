@@ -1623,7 +1623,7 @@
                           [[
                             "^@.item", 
                             {
-                              "&": "filtertraverse_core_emlynoregan_com",
+                              "&": "filttrav_core_emlynoregan_com",
                               "source": ["^@", "source", "^@.item"]
                             }
                           ]]
@@ -1665,7 +1665,7 @@
                           "&&",
                           "^@.accum.result",
                           {
-                            "&": "filtertraverse_core_emlynoregan_com",
+                            "&": "filttrav_core_emlynoregan_com",
                             "source": "^@.item"
                           }
                         ]
@@ -1692,7 +1692,7 @@
       }
     },
     "requires": [
-      "switch", "coalesce", "filtertraverse_core_emlynoregan_com"
+      "switch", "coalesce", "filttrav_core_emlynoregan_com"
     ]
   }
 ]
