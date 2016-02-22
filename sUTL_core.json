@@ -1564,7 +1564,8 @@
                     },
                     "transformedvalue": {
                       "!": "^@.traverse-t",
-                      "value": ["^@", "source", "^@.item"]
+                      "key": "^@.index",
+                      "value": "^@.item"
                     }
                   }
                 }}
